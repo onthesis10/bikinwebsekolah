@@ -788,7 +788,7 @@ export const PPDBPage: React.FC = () => {
               <div className="smini"><span className="d">02</span><div><b>Isi formulir</b><span>Sesuai dokumen</span></div></div>
               <div className="smini"><span className="d">03</span><div><b>Simpan no. daftar</b><span>Untuk cek status</span></div></div>
               <a 
-                href="https://wa.me/6281221388713?text=Halo%20BikinWebSekolah!%20%E2%9C%A8%20Saya%20habis%20nyobain%20demo%20halaman%20PPDB-nya%20dan%20tertarik%20buat%20tanya-tanya%20paket%20ini.%20Boleh%20dibantu%3F%20%F0%9F%8F%AB"
+                href="https://wa.me/6281221388713?text=Halo%20BikinWebSekolah%2C%20saya%20sedang%20mencoba%20demo%20halaman%20PPDB%20dan%20tertarik%20tanya-tanya%20seputar%20paket%20ini."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-onp btn-sm" 
