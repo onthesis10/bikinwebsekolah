@@ -299,21 +299,84 @@ export const LandingPage: React.FC = () => {
             {/* Glowing Lime Constellation Overlay */}
             <ConstellationCanvas />
 
-            {/* Progress ring with subtle slow rotation and hover scale */}
+            {/* Progress ring with custom SVG and interactive orbit dot */}
             <motion.span 
               className="progress-ring" 
-              style={{ '--p': 78 } as React.CSSProperties}
               whileHover={{ scale: 1.08 }}
               transition={{ type: "spring", stiffness: 300, damping: 18 }}
             >
-              <motion.span 
-                className="dial" 
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
-              />
+              <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90 overflow-visible">
+                {/* Thin outer dashed ring (slow rotation) */}
+                <motion.circle
+                  cx="50"
+                  cy="50"
+                  r="47"
+                  fill="transparent"
+                  stroke="rgba(255, 255, 255, 0.15)"
+                  strokeWidth="0.8"
+                  strokeDasharray="4 3"
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 45, ease: "linear" }}
+                  style={{ originX: "50px", originY: "50px" }}
+                />
+                
+                {/* Background progress track */}
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="42"
+                  fill="transparent"
+                  stroke="rgba(255, 255, 255, 0.08)"
+                  strokeWidth="4"
+                />
+                
+                {/* Animated progress stroke */}
+                <motion.circle
+                  cx="50"
+                  cy="50"
+                  r="42"
+                  fill="transparent"
+                  stroke="var(--accent)"
+                  strokeWidth="4.5"
+                  strokeLinecap="round"
+                  strokeDasharray="263.89"
+                  initial={{ strokeDashoffset: 263.89 }}
+                  animate={{ strokeDashoffset: 263.89 * (1 - 0.78) }}
+                  transition={{ duration: 1.8, ease: "easeOut", delay: 0.5 }}
+                />
+
+                {/* Orbit dot at the end of progress */}
+                <motion.circle
+                  cx="8.74"
+                  cy="42.13"
+                  r="3.2"
+                  fill="var(--accent)"
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: [1, 1.5, 1], opacity: [0.8, 1, 0.8] }}
+                  transition={{ 
+                    scale: { repeat: Infinity, duration: 2, ease: "easeInOut" },
+                    opacity: { repeat: Infinity, duration: 2, ease: "easeInOut" },
+                    delay: 2.3
+                  }}
+                  style={{ filter: "drop-shadow(0 0 4px var(--accent))" }}
+                />
+              </svg>
+
               <span className="hole">
-                <b>30+</b>
-                <span>Section</span>
+                <motion.b
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.8 }}
+                >
+                  30+
+                </motion.b>
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.82 }}
+                  transition={{ duration: 0.4, delay: 1.2 }}
+                >
+                  Section
+                </motion.span>
               </span>
             </motion.span>
 
