@@ -788,13 +788,13 @@ export const PPDBPage: React.FC = () => {
               <div className="smini"><span className="d">02</span><div><b>Isi formulir</b><span>Sesuai dokumen</span></div></div>
               <div className="smini"><span className="d">03</span><div><b>Simpan no. daftar</b><span>Untuk cek status</span></div></div>
               <a 
-                href="https://wa.me/6281234567890?text=Halo%20Panitia%20PPDB%2C%20saya%20butuh%20bantuan%20terkait%20pendaftaran%20online."
+                href="https://wa.me/6281221388713?text=Halo%20BikinWebSekolah%2C%20saya%20sedang%20mencoba%20demo%20halaman%20PPDB%20dan%20tertarik%20tanya-tanya%20mengenai%20paket%20ini."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-onp btn-sm" 
                 style={{ width: '100%', marginTop: '18px', background: 'rgba(241,237,230,.12)' }}
               >
-                WhatsApp Panitia
+                WhatsApp Panitia (Demo)
               </a>
             </aside>
           </div>
