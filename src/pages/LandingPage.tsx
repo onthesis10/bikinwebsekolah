@@ -264,7 +264,7 @@ export const LandingPage: React.FC = () => {
         <a href="#arah" onClick={() => setMobileMenuOpen(false)}>Arah Desain</a>
         <a href="#style" onClick={() => setMobileMenuOpen(false)}>Style</a>
         <a href="#banding" onClick={() => setMobileMenuOpen(false)}>Banding</a>
-        <a href="https://wa.me/6281221388713?text=Halo%20BikinWebSekolah%2C%20saya%20tertarik%20tanya-tanya%20mengenai%20jasa%20pembuatan%20website%20sekolah." target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)} className="btn btn-primary" style={{ marginTop: 12 }}>
+        <a href="https://wa.me/6281221388713?text=Halo%20BikinWebSekolah!%20%F0%9F%91%8B%20Saya%20tertarik%20tanya-tanya%20seputar%20jasa%20pembuatan%20website%20sekolah%20nih.%20Boleh%20minta%20infonya%3F%20%F0%9F%9A%80" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)} className="btn btn-primary" style={{ marginTop: 12 }}>
           Hubungi Kami
         </a>
       </div>
@@ -869,7 +869,7 @@ export const LandingPage: React.FC = () => {
             <h2 style={{ marginTop: 18 }}>Wujudkan Website Sekolah Impian Anda Sekarang.</h2>
             <p>Hadirkan portal informasi resmi dan sistem PPDB online terbaik untuk sekolah Anda. Hubungi kami untuk berkonsultasi secara gratis dengan tim ahli kami.</p>
             <div className="cta-row">
-              <a href="https://wa.me/6281221388713?text=Halo%20BikinWebSekolah%2C%20saya%20tertarik%20tanya-tanya%20mengenai%20jasa%20pembuatan%20website%20sekolah." target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg">Hubungi Kami di WhatsApp</a>
+              <a href="https://wa.me/6281221388713?text=Halo%20BikinWebSekolah!%20%F0%9F%91%8B%20Saya%20tertarik%20tanya-tanya%20seputar%20jasa%20pembuatan%20website%20sekolah%20nih.%20Boleh%20minta%20infonya%3F%20%F0%9F%9A%80" target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg">Hubungi Kami di WhatsApp</a>
               <a href="#paket" className="btn btn-ghost btn-lg" style={{ borderColor: 'rgba(29,38,6,.3)', color: 'var(--lime-ink)' }}>Lihat Pilihan Paket</a>
             </div>
           </div>
