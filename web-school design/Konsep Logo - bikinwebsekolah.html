@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id" class="theme-academy">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Konsep Logo — bikinwebsekolah.com</title>
+<link rel="stylesheet" href="assets/base.css" />
+<style>
+  body{ background:var(--canvas); }
+  .page{ padding-block:clamp(34px,5vw,72px); }
+
+  /* header */
+  .lh{ display:flex; flex-direction:column; gap:14px; padding-bottom:clamp(26px,3vw,40px); border-bottom:1px solid var(--line); }
+  .lh .pill{ align-self:flex-start; display:inline-flex; align-items:center; gap:8px; font-family:'Space Grotesk',sans-serif; font-size:.72rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); background:var(--lime); padding:7px 13px; border-radius:999px; }
+  .lh h1{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(2.2rem,5vw,3.6rem); letter-spacing:-.03em; }
+  .lh h1 b{ color:var(--ink); } .lh h1 .d{ color:var(--lime-deep); }
+  .lh p{ max-width:620px; color:var(--ink-2); font-size:1.05rem; }
+  .meta-row{ display:flex; gap:22px; flex-wrap:wrap; margin-top:6px; }
+  .meta-row .m{ font-family:'Space Grotesk'; font-size:.8rem; color:var(--muted); display:flex; align-items:center; gap:8px; }
+  .meta-row .m b{ color:var(--ink); font-weight:600; }
+  .sw-dots{ display:flex; gap:6px; }
+  .sw-dots i{ width:16px; height:16px; border-radius:5px; box-shadow:inset 0 0 0 1px rgba(0,0,0,.08); }
+
+  /* brief */
+  .brief{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:clamp(26px,3vw,40px); }
+  @media (max-width:760px){ .brief{ grid-template-columns:1fr; } }
+  .brief .b{ background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:20px 22px; }
+  .brief .b .k{ font-family:'Space Grotesk'; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--lime-deep); }
+  .brief .b b{ display:block; font-family:'Space Grotesk'; font-size:1.1rem; margin-top:6px; }
+  .brief .b p{ font-size:.88rem; color:var(--ink-2); margin-top:5px; }
+
+  /* grid */
+  .glist{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-top:clamp(30px,4vw,52px); }
+  @media (max-width:900px){ .glist{ grid-template-columns:1fr; } }
+  .lcard{ background:var(--paper); border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:var(--shadow-sm); transition:transform .2s, box-shadow .25s; }
+  .lcard:hover{ transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+
+  /* main showcase tile */
+  .tile{ position:relative; min-height:210px; display:flex; align-items:center; justify-content:center; gap:22px; padding:30px;
+    background:
+      radial-gradient(120% 120% at 100% 0%, color-mix(in srgb,var(--lime) 18%, transparent), transparent 55%),
+      var(--canvas);
+    color:var(--ink); --acc:var(--lime); }
+  .tile .corner{ position:absolute; top:16px; left:18px; font-family:'Space Grotesk'; font-size:.78rem; font-weight:600; color:var(--muted); }
+  .mk{ display:block; }
+  .mk.lg{ width:72px; height:72px; flex:none; }
+  .mk.sm{ width:30px; height:30px; }
+  .lock{ display:inline-flex; align-items:center; gap:15px; }
+  .wm{ font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:1.5rem; letter-spacing:-.03em; color:currentColor; line-height:1; }
+  .wm b{ font-weight:700; }
+  .wm i{ font-style:normal; font-weight:600; font-size:.62em; color:var(--lime-deep); margin-left:1px; }
+  .tile.stack{ flex-direction:column; gap:16px; }
+
+  /* variant strip */
+  .vars{ display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line); }
+  .sw{ display:flex; align-items:center; justify-content:center; padding:20px 10px; border-right:1px solid var(--line); position:relative; }
+  .sw:last-child{ border-right:0; }
+  .sw .tag{ position:absolute; bottom:7px; left:0; right:0; text-align:center; font-family:'Space Grotesk'; font-size:.58rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+  .sw.cream{ background:var(--canvas); color:var(--ink); --acc:var(--lime); }
+  .sw.ink{ background:var(--ink); color:#f3f1ea; --acc:var(--lime); }
+  .sw.ink .tag{ color:var(--on-ink-mute); }
+  .sw.mono{ background:var(--paper); color:var(--ink); --acc:var(--ink); }
+  .sw.fav{ background:var(--ink); --acc:var(--lime); color:var(--lime); }
+  .sw.fav .ic{ width:46px; height:46px; border-radius:12px; background:var(--lime); color:var(--ink); display:grid; place-items:center; --acc:var(--ink); white-space:nowrap; }
+  .sw.fav .ic .mk{ width:30px; height:30px; }
+
+  /* meta */
+  .lmeta{ padding:20px 24px 24px; }
+  .lmeta .no{ font-family:'Space Grotesk'; font-size:.8rem; color:var(--lime-deep); font-weight:600; }
+  .lmeta h3{ font-family:'Space Grotesk'; font-weight:700; font-size:1.3rem; letter-spacing:-.02em; margin-top:3px; }
+  .lmeta p{ font-size:.92rem; color:var(--ink-2); margin-top:8px; }
+
+  /* note */
+  .note{ margin-top:clamp(30px,4vw,48px); background:var(--ink); color:var(--on-ink); border-radius:18px; padding:clamp(26px,3vw,40px); display:flex; gap:24px; align-items:center; flex-wrap:wrap; }
+  .note h3{ font-family:'Space Grotesk'; color:#fff; font-size:1.4rem; }
+  .note p{ color:var(--on-ink-mute); margin-top:8px; max-width:560px; }
+  .note .big{ font-family:'Space Grotesk'; font-weight:700; font-size:clamp(2rem,4vw,3rem); color:var(--lime); letter-spacing:-.03em; margin-left:auto; }
+</style>
+</head>
+<body>
+
+<!-- ===== SYMBOL DEFINITIONS (main=currentColor, accent=var(--acc)) ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <!-- 01 Rumah Web -->
+  <symbol id="lg-rumah" viewBox="0 0 64 64">
+    <path fill="currentColor" d="M32 6 60 27 54 27 54 53a3 3 0 0 1-3 3L13 56a3 3 0 0 1-3-3L10 27 4 27Z"/>
+    <rect style="fill:var(--acc,#c8f250)" x="18" y="35" width="28" height="15" rx="2.5"/>
+  </symbol>
+  <!-- 02 Toga Klik -->
+  <symbol id="lg-toga" viewBox="0 0 64 64">
+    <path fill="currentColor" d="M32 13 59 23 32 33 5 23Z"/>
+    <path fill="currentColor" d="M15 27.5 32 34l17-6.5V37c0 6-7.6 9.5-17 9.5S15 43 15 37Z"/>
+    <path style="stroke:var(--acc,#c8f250)" stroke-width="2.4" stroke-linecap="round" fill="none" d="M57 24 57 41"/>
+    <path style="fill:var(--acc,#c8f250)" d="M52.5 40 52.5 53 56 49.5 59 55 61.5 53.8 58.4 48.5 63 48Z"/>
+  </symbol>
+  <!-- 03 Simpul Ilmu (nodes) -->
+  <symbol id="lg-simpul" viewBox="0 0 64 64">
+    <path style="stroke:currentColor" stroke-width="2.2" stroke-linejoin="round" fill="none" d="M32 12 56 26 32 40 8 26Z"/>
+    <path style="stroke:currentColor" stroke-width="2.2" stroke-linecap="round" fill="none" d="M56 26 56 44"/>
+    <circle cx="8" cy="26" r="3.6" fill="currentColor"/>
+    <circle cx="32" cy="40" r="3.6" fill="currentColor"/>
+    <circle cx="56" cy="26" r="3.6" fill="currentColor"/>
+    <circle cx="56" cy="46" r="3.4" style="fill:var(--acc,#c8f250)"/>
+    <circle cx="32" cy="12" r="4.4" style="fill:var(--acc,#c8f250)"/>
+  </symbol>
+  <!-- 04 Kurung Kode -->
+  <symbol id="lg-kode" viewBox="0 0 64 64">
+    <path style="stroke:currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M20 18 7 32 20 46"/>
+    <path style="stroke:currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M44 18 57 32 44 46"/>
+    <path style="fill:var(--acc,#c8f250)" d="M32 22 43 27 32 32 21 27Z"/>
+    <path style="fill:var(--acc,#c8f250)" d="M25 29 32 32 39 29v4.2c0 2.6-3.1 4.3-7 4.3s-7-1.7-7-4.3Z"/>
+  </symbol>
+  <!-- 05 Layar Ilmu -->
+  <symbol id="lg-layar" viewBox="0 0 64 64">
+    <rect fill="currentColor" x="6" y="11" width="52" height="36" rx="4"/>
+    <path fill="currentColor" d="M25 47 23 55 41 55 39 47Z"/>
+    <rect fill="currentColor" x="18" y="54" width="28" height="3.4" rx="1.7"/>
+    <path style="fill:var(--acc,#c8f250)" d="M32 22c-3-2.6-7-2.6-11-1.4v13.8c4-1.2 8-1.2 11 1.4 3-2.6 7-2.6 11-1.4V20.6C39 19.4 35 19.4 32 22Z"/>
+    <path style="stroke:var(--canvas,#15130f);stroke:currentColor" stroke-width="0" d="M32 22 32 36"/>
+  </symbol>
+</svg>
+
+<div class="page wrap">
+
+  <!-- HEADER -->
+  <header class="lh">
+    <span class="pill">● Konsep Logo — Belum Diterapkan</span>
+    <h1><b>bikinweb<span style="color:var(--lime-deep)">sekolah</span></b><span class="d">.com</span></h1>
+    <p>Enam arah identitas untuk layanan pembuatan website sekolah. Tiap konsep ditampilkan dalam lockup utama, versi latar gelap, versi satu-warna, dan bentuk favicon.</p>
+    <div class="meta-row">
+      <span class="m"><b>6</b> arah konsep</span>
+      <span class="m">Font: <b>Space Grotesk</b></span>
+      <span class="m">Palet:
+        <span class="sw-dots"><i style="background:#15130f"></i><i style="background:#c8f250"></i><i style="background:#f3f1ea"></i></span>
+      </span>
+    </div>
+  </header>
+
+  <!-- BRIEF -->
+  <div class="brief">
+    <div class="b"><span class="k">Nilai 01</span><b>Edukatif</b><p>Terbaca sebagai dunia pendidikan — toga, sekolah, ilmu.</p></div>
+    <div class="b"><span class="k">Nilai 02</span><b>Digital / Web</b><p>Sinyal teknologi: browser, layar, kode, jaringan.</p></div>
+    <div class="b"><span class="k">Nilai 03</span><b>Tepercaya &amp; Modern</b><p>Geometris, bersih, premium — bukan klip-art.</p></div>
+  </div>
+
+  <!-- CONCEPTS -->
+  <div class="glist">
+
+    <!-- 01 -->
+    <article class="lcard">
+      <div class="tile"><span class="corner">01</span>
+        <svg class="mk lg"><use href="#lg-rumah"/></svg>
+        <span class="lock"><span class="wm">bikinweb<b>sekolah</b><i>.com</i></span></span>
+      </div>
+      <div class="vars">
+        <div class="sw cream"><svg class="mk sm"><use href="#lg-rumah"/></svg><span class="tag">Cream</span></div>
+        <div class="sw ink"><svg class="mk sm"><use href="#lg-rumah"/></svg><span class="tag">Gelap</span></div>
+        <div class="sw mono"><svg class="mk sm"><use href="#lg-rumah"/></svg><span class="tag">1 Warna</span></div>
+        <div class="sw fav"><span class="ic"><svg class="mk"><use href="#lg-rumah"/></svg></span><span class="tag">Favicon</span></div>
+      </div>
+      <div class="lmeta"><span class="no">Konsep 01</span><h3>Rumah Web</h3><p>Atap sekolah menaungi sebuah jendela/website — "rumah digital" resmi tiap sekolah. Hangat &amp; mudah dikenali.</p></div>
+    </article>
+
+    <!-- 02 -->
+    <article class="lcard">
+      <div class="tile"><span class="corner">02</span>
+        <svg class="mk lg"><use href="#lg-toga"/></svg>
+        <span class="lock"><span class="wm">bikinweb<b>sekolah</b><i>.com</i></span></span>
+      </div>
+      <div class="vars">
+        <div class="sw cream"><svg class="mk sm"><use href="#lg-toga"/></svg><span class="tag">Cream</span></div>
+        <div class="sw ink"><svg class="mk sm"><use href="#lg-toga"/></svg><span class="tag">Gelap</span></div>
+        <div class="sw mono"><svg class="mk sm"><use href="#lg-toga"/></svg><span class="tag">1 Warna</span></div>
+        <div class="sw fav"><span class="ic"><svg class="mk"><use href="#lg-toga"/></svg></span><span class="tag">Favicon</span></div>
+      </div>
+      <div class="lmeta"><span class="no">Konsep 02</span><h3>Toga Klik</h3><p>Topi wisuda dengan tali yang berujung kursor — pendidikan yang tinggal "klik" jadi online. Aktif &amp; menjual.</p></div>
+    </article>
+
+    <!-- 03 -->
+    <article class="lcard">
+      <div class="tile"><span class="corner">03</span>
+        <svg class="mk lg"><use href="#lg-simpul"/></svg>
+        <span class="lock"><span class="wm">bikinweb<b>sekolah</b><i>.com</i></span></span>
+      </div>
+      <div class="vars">
+        <div class="sw cream"><svg class="mk sm"><use href="#lg-simpul"/></svg><span class="tag">Cream</span></div>
+        <div class="sw ink"><svg class="mk sm"><use href="#lg-simpul"/></svg><span class="tag">Gelap</span></div>
+        <div class="sw mono"><svg class="mk sm"><use href="#lg-simpul"/></svg><span class="tag">1 Warna</span></div>
+        <div class="sw fav"><span class="ic"><svg class="mk"><use href="#lg-simpul"/></svg></span><span class="tag">Favicon</span></div>
+      </div>
+      <div class="lmeta"><span class="no">Konsep 03</span><h3>Simpul Ilmu</h3><p>Toga tersusun dari simpul jaringan — sekolah yang terhubung secara digital. Senada animasi partikel di hero.</p></div>
+    </article>
+
+    <!-- 04 -->
+    <article class="lcard">
+      <div class="tile"><span class="corner">04</span>
+        <svg class="mk lg"><use href="#lg-kode"/></svg>
+        <span class="lock"><span class="wm">bikinweb<b>sekolah</b><i>.com</i></span></span>
+      </div>
+      <div class="vars">
+        <div class="sw cream"><svg class="mk sm"><use href="#lg-kode"/></svg><span class="tag">Cream</span></div>
+        <div class="sw ink"><svg class="mk sm"><use href="#lg-kode"/></svg><span class="tag">Gelap</span></div>
+        <div class="sw mono"><svg class="mk sm"><use href="#lg-kode"/></svg><span class="tag">1 Warna</span></div>
+        <div class="sw fav"><span class="ic"><svg class="mk"><use href="#lg-kode"/></svg></span><span class="tag">Favicon</span></div>
+      </div>
+      <div class="lmeta"><span class="no">Konsep 04</span><h3>Kurung Kode</h3><p>Tanda kurung <span class="mono">&lt; &gt;</span> merangkul toga: "kami yang ngoding, sekolah fokus mendidik." Paling tech.</p></div>
+    </article>
+
+    <!-- 05 -->
+    <article class="lcard">
+      <div class="tile"><span class="corner">05</span>
+        <svg class="mk lg"><use href="#lg-layar"/></svg>
+        <span class="lock"><span class="wm">bikinweb<b>sekolah</b><i>.com</i></span></span>
+      </div>
+      <div class="vars">
+        <div class="sw cream"><svg class="mk sm"><use href="#lg-layar"/></svg><span class="tag">Cream</span></div>
+        <div class="sw ink"><svg class="mk sm"><use href="#lg-layar"/></svg><span class="tag">Gelap</span></div>
+        <div class="sw mono"><svg class="mk sm"><use href="#lg-layar"/></svg><span class="tag">1 Warna</span></div>
+        <div class="sw fav"><span class="ic"><svg class="mk"><use href="#lg-layar"/></svg></span><span class="tag">Favicon</span></div>
+      </div>
+      <div class="lmeta"><span class="no">Konsep 05</span><h3>Layar Ilmu</h3><p>Monitor dengan buku terbuka di layarnya — ilmu yang tampil di web. Lugas &amp; informatif.</p></div>
+    </article>
+
+    <!-- 06 wordmark -->
+    <article class="lcard">
+      <div class="tile stack"><span class="corner">06</span>
+        <span class="wm" style="font-size:2.1rem">bikinweb<b>sekolah</b><span style="color:var(--lime-deep)">.com</span></span>
+        <span style="font-family:'Space Grotesk'; font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)">Logotype · tanpa ikon</span>
+      </div>
+      <div class="vars">
+        <div class="sw cream"><span class="wm" style="font-size:1rem">bw<b>s</b><i>.</i></span><span class="tag">Cream</span></div>
+        <div class="sw ink"><span class="wm" style="font-size:1rem">bw<b>s</b><i>.</i></span><span class="tag">Gelap</span></div>
+        <div class="sw mono"><span class="wm" style="font-size:1rem; color:var(--ink)">bw<b>s</b></span><span class="tag">1 Warna</span></div>
+        <div class="sw fav"><span class="ic" style="font-family:'Space Grotesk'; font-weight:700; font-size:.92rem; letter-spacing:-.04em; color:var(--ink)">bws</span><span class="tag">Favicon</span></div>
+      </div>
+      <div class="lmeta"><span class="no">Konsep 06</span><h3>Wordmark Murni</h3><p>Logotype tegas: "<b>sekolah</b>" ditebalkan sebagai inti, titik lime sebagai sinyal "online". Inisial <span class="mono">bws</span> untuk favicon.</p></div>
+    </article>
+
+  </div>
+
+  <!-- NOTE -->
+  <div class="note">
+    <div>
+      <h3>Tinggal pilih nomornya 👇</h3>
+      <p>Sebut konsep mana yang paling klik (mis. "lanjut konsep 02"). Setelah itu saya rapikan jadi versi final: penyesuaian bentuk, lockup horizontal/vertikal, ukuran kecil, dan file siap pakai — baru diterapkan ke website.</p>
+    </div>
+    <span class="big">01 — 06</span>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SMAS Cendekia Bangsa — Profil Sekolah</title>
+<link rel="stylesheet" href="assets/base.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  /* ====== PALETTE OVERRIDE — Deep Green Academy ====== */
+  :root{
+    --canvas:#ebeee5; --canvas-2:#e0e4d6; --paper:#f8faf3; --paper-2:#f1f4e9;
+    --ink:#0e1812; --ink-soft:#152219; --ink-2:#3a463e; --muted:#6c7468;
+    --line:#d4dac9; --line-2:#e1e6d6;
+    --on-ink:#ebeee5; --on-ink-mute:#94a394; --on-ink-line:rgba(235,238,229,.14);
+    --accent:#2c6347; --accent-deep:#1f4a34; --accent-ink:#ffffff;
+    --gold:#9c7b34;
+  }
+  body{ background:var(--canvas); }
+  .display,h1,h2,h3{ font-family:'Spectral',Georgia,serif; font-weight:500; letter-spacing:-.01em; }
+  h1{ font-weight:400; } .lead{ color:var(--ink-2); }
+  .kick{ font-family:'Space Mono',monospace; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+  .kick .g{ color:var(--gold); }
+  em{ font-style:italic; color:var(--accent); }
+
+  /* hairline rule */
+  .hl-rule{ height:1px; background:var(--line); }
+
+  /* ====== NAV ====== */
+  .nav{ position:sticky; top:0; z-index:60; background:color-mix(in srgb,var(--canvas) 86%, transparent); backdrop-filter:blur(12px); border-bottom:1px solid transparent; transition:.3s; }
+  .nav.scrolled{ border-color:var(--line); }
+  .nav .row{ display:flex; align-items:center; gap:26px; height:76px; }
+  .brand{ display:flex; align-items:center; gap:13px; }
+  .crest{ width:42px; height:42px; border-radius:50%; border:1.5px solid var(--accent); display:grid; place-items:center; color:var(--accent); position:relative; }
+  .crest svg{ width:20px; height:20px; }
+  .brand .wm{ font-family:'Spectral',serif; font-weight:600; font-size:1.2rem; letter-spacing:-.01em; line-height:1; }
+  .brand .wm small{ display:block; font-family:'Space Mono',monospace; font-size:.58rem; font-weight:400; letter-spacing:.18em; color:var(--muted); text-transform:uppercase; margin-top:4px; }
+  .navlinks{ display:flex; gap:6px; margin-left:auto; }
+  .navlinks a{ position:relative; padding:8px 4px; font-size:.92rem; font-weight:500; color:var(--ink-2); white-space:nowrap; }
+  .navlinks a::after{ content:""; position:absolute; left:0; right:100%; bottom:0; height:1.5px; background:var(--accent); transition:right .25s; }
+  .navlinks a:hover{ color:var(--ink); } .navlinks a:hover::after{ right:0; }
+  .nav .cta{ margin-left:8px; }
+  .menu-btn{ margin-left:auto; display:none; width:44px; height:44px; border:1px solid var(--line); border-radius:50%; background:var(--paper); align-items:center; justify-content:center; }
+  .menu-btn span,.menu-btn span::before,.menu-btn span::after{ content:""; display:block; width:18px; height:1.5px; background:var(--ink); position:relative; }
+  .menu-btn span::before{ position:absolute; top:-6px; } .menu-btn span::after{ position:absolute; top:6px; }
+  @media (max-width:900px){ .navlinks,.nav .cta{ display:none; } .menu-btn{ display:flex; } }
+  .mobnav{ display:none; } .mobnav.open{ display:grid; grid-template-columns:1fr 1fr; gap:4px; position:fixed; inset:76px 0 auto 0; z-index:55; background:var(--paper); border-bottom:1px solid var(--line); padding:14px clamp(20px,4vw,48px) 20px; }
+  .mobnav a{ padding:13px 10px; font-weight:500; color:var(--ink-2); border-bottom:1px solid var(--line-2); }
+
+  /* ====== HERO (editorial, type-led) ====== */
+  .hero{ padding-top:clamp(34px,5vw,68px); padding-bottom:clamp(40px,5vw,72px); }
+  .hero .toprule{ display:flex; justify-content:space-between; gap:16px; padding-bottom:18px; border-bottom:1px solid var(--ink); flex-wrap:wrap; }
+  .hero-grid{ display:grid; grid-template-columns:1.55fr .95fr; gap:clamp(28px,4vw,60px); padding-top:clamp(30px,4vw,52px); }
+  @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
+  .hero h1{ font-size:clamp(2.7rem,6.4vw,5.3rem); line-height:1.0; letter-spacing:-.02em; }
+  .hero .lead{ font-size:clamp(1.08rem,1.4vw,1.3rem); max-width:520px; margin-top:26px; }
+  .hero .cta-row{ display:flex; gap:13px; flex-wrap:wrap; margin-top:32px; }
+  .hero-side{ display:flex; flex-direction:column; gap:20px; }
+  .portrait{ position:relative; aspect-ratio:4/4.7; border-radius:2px; overflow:hidden; background:var(--ink); }
+  .portrait .pc{ position:absolute; left:14px; bottom:14px; right:14px; }
+  .portrait .pc .kick{ color:rgba(255,255,255,.7); }
+  .hstats{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  .hstats .s{ background:var(--paper); padding:16px 18px; }
+  .hstats .s b{ font-family:'Spectral'; font-size:1.9rem; font-weight:500; display:block; line-height:1; letter-spacing:-.02em; }
+  .hstats .s span{ font-family:'Space Mono',monospace; font-size:.64rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+
+  /* buttons restyle to academy (sharper) */
+  .btn{ border-radius:3px; }
+  .btn-accent{ background:var(--accent); color:#fff; } .btn-accent:hover{ background:var(--accent-deep); }
+
+  /* ====== SECTION SCAFFOLD ====== */
+  .secnum{ display:flex; align-items:baseline; gap:14px; margin-bottom:clamp(26px,3.5vw,44px); padding-bottom:16px; border-bottom:1px solid var(--line); }
+  .secnum .no{ font-family:'Space Mono',monospace; font-size:.8rem; color:var(--gold); letter-spacing:.1em; }
+  .secnum h2{ font-size:clamp(1.7rem,3vw,2.5rem); }
+  .secnum .meta{ margin-left:auto; font-family:'Space Mono',monospace; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); align-self:center; }
+
+  /* Sambutan */
+  .welcome{ display:grid; grid-template-columns:.8fr 1.2fr; gap:clamp(28px,4vw,56px); align-items:flex-start; }
+  @media (max-width:880px){ .welcome{ grid-template-columns:1fr; } }
+  .welcome .pf{ aspect-ratio:3/3.6; border-radius:2px; overflow:hidden; background:var(--ink); position:relative; }
+  .welcome .pf .pc{ position:absolute; left:14px; bottom:14px; }
+  .welcome .pf .pc b{ color:#fff; font-family:'Spectral'; font-size:1.05rem; display:block; }
+  .welcome .pf .pc span{ color:rgba(255,255,255,.7); font-family:'Space Mono'; font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; }
+  .quote{ font-family:'Spectral',serif; font-weight:400; font-size:clamp(1.5rem,2.8vw,2.3rem); line-height:1.32; letter-spacing:-.01em; }
+  .quote .dq{ color:var(--accent); }
+  .sign{ margin-top:26px; }
+  .sign .nm{ font-family:'Spectral'; font-style:italic; font-size:1.5rem; color:var(--accent); }
+  .sign .ro{ font-family:'Space Mono'; font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:4px; }
+
+  /* Visi misi */
+  .vm{ display:grid; grid-template-columns:1fr 1.25fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  @media (max-width:820px){ .vm{ grid-template-columns:1fr; } }
+  .vm > div{ background:var(--paper); padding:clamp(26px,3vw,38px); }
+  .vm .visi{ background:var(--ink); color:var(--on-ink); }
+  .vm .visi .kick{ color:var(--on-ink-mute); }
+  .vm .visi .big{ font-family:'Spectral'; font-weight:400; font-size:clamp(1.5rem,2.4vw,2rem); line-height:1.3; margin-top:16px; color:#fff; }
+  .vm .visi .big em{ color:#7fd2a6; }
+  .misi{ list-style:none; padding:0; margin:14px 0 0; display:flex; flex-direction:column; }
+  .misi li{ display:flex; gap:16px; padding:15px 0; border-bottom:1px solid var(--line-2); }
+  .misi li:last-child{ border:0; }
+  .misi .n{ font-family:'Space Mono'; font-size:.8rem; color:var(--gold); flex:none; padding-top:2px; }
+  .misi p{ color:var(--ink-2); font-size:.96rem; }
+
+  /* Program */
+  .prog{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  @media (max-width:880px){ .prog{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .prog{ grid-template-columns:1fr; } }
+  .prog .p{ background:var(--paper); padding:30px 28px; transition:background .2s; position:relative; }
+  .prog .p:hover{ background:var(--paper-2); }
+  .prog .p .no{ font-family:'Space Mono'; font-size:.72rem; color:var(--gold); letter-spacing:.1em; }
+  .prog .p h3{ font-size:1.35rem; margin-top:14px; }
+  .prog .p p{ font-size:.92rem; color:var(--ink-2); margin-top:8px; }
+  .prog .p .ic{ position:absolute; top:28px; right:28px; color:var(--accent); opacity:.6; } .prog .p .ic svg{ width:24px; height:24px; }
+
+  /* Fasilitas — text list, minimal */
+  .fac{ display:grid; grid-template-columns:repeat(2,1fr); gap:0 clamp(28px,4vw,64px); }
+  @media (max-width:680px){ .fac{ grid-template-columns:1fr; } }
+  .fac .f{ display:flex; align-items:center; gap:16px; padding:18px 0; border-bottom:1px solid var(--line); }
+  .fac .f .ic{ color:var(--accent); flex:none; } .fac .f .ic svg{ width:22px; height:22px; }
+  .fac .f b{ font-family:'Spectral'; font-weight:500; font-size:1.1rem; flex:1; }
+  .fac .f span{ font-family:'Space Mono'; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+
+  /* Galeri */
+  .gallery{ display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:170px; gap:10px; }
+  @media (max-width:880px){ .gallery{ grid-template-columns:repeat(2,1fr); } }
+  .gallery .g{ overflow:hidden; border-radius:2px; } .gallery .g.tall{ grid-row:span 2; } .gallery .g.wide{ grid-column:span 2; }
+
+  /* Kontak */
+  .contact{ display:grid; grid-template-columns:1fr 1.05fr; gap:clamp(24px,4vw,52px); }
+  @media (max-width:880px){ .contact{ grid-template-columns:1fr; } }
+  .inforow{ display:flex; gap:18px; padding:18px 0; border-bottom:1px solid var(--line); }
+  .inforow:last-of-type{ border:0; }
+  .inforow .ic{ color:var(--accent); flex:none; } .inforow .ic svg{ width:22px; height:22px; }
+  .inforow b{ display:block; font-family:'Space Mono'; font-size:.64rem; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); }
+  .inforow span{ font-family:'Spectral'; font-size:1.12rem; color:var(--ink); }
+  .map{ border-radius:2px; min-height:340px; height:100%; position:relative; overflow:hidden; background:var(--ink); }
+  .map .grid-bg{ position:absolute; inset:0; opacity:.5; background-image:linear-gradient(var(--on-ink-line) 1px,transparent 1px),linear-gradient(90deg,var(--on-ink-line) 1px,transparent 1px); background-size:40px 40px; }
+  .map .pin{ position:absolute; top:46%; left:50%; transform:translate(-50%,-100%); color:#7fd2a6; } .map .pin svg{ width:46px; height:46px; filter:drop-shadow(0 8px 12px rgba(0,0,0,.4)); }
+  .map .ml{ position:absolute; left:16px; bottom:16px; font-family:'Space Mono'; font-size:.72rem; color:#fff; background:rgba(0,0,0,.4); padding:8px 13px; border:1px solid var(--on-ink-line); }
+
+  /* Footer */
+  .foot{ background:var(--ink); color:var(--on-ink-mute); padding-block:clamp(46px,6vw,72px) 28px; margin-top:clamp(40px,5vw,72px); }
+  .foot .grid-f{ display:grid; grid-template-columns:1.7fr 1fr 1fr 1.2fr; gap:32px; }
+  @media (max-width:820px){ .foot .grid-f{ grid-template-columns:1fr 1fr; } } @media (max-width:520px){ .foot .grid-f{ grid-template-columns:1fr; } }
+  .foot .crest{ border-color:#7fd2a6; color:#7fd2a6; }
+  .foot .wm{ color:#fff; font-family:'Spectral'; font-size:1.2rem; font-weight:600; }
+  .foot h4{ font-family:'Space Mono'; color:#fff; font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:16px; font-weight:400; }
+  .foot a{ display:block; padding:5px 0; color:var(--on-ink-mute); font-size:.92rem; } .foot a:hover{ color:#fff; }
+  .foot .copy{ grid-column:1/-1; border-top:1px solid var(--on-ink-line); margin-top:24px; padding-top:22px; font-family:'Space Mono'; font-size:.72rem; letter-spacing:.04em; color:var(--on-ink-mute); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+  .backhub{ position:fixed; left:16px; bottom:16px; z-index:70; box-shadow:var(--shadow); }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="btn btn-soft btn-sm backhub">← Katalog</a>
+
+<!-- NAV -->
+<nav class="nav" data-nav>
+  <div class="wrap">
+    <div class="row">
+      <a class="brand" href="#top">
+        <span class="crest"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 2 8l10 5 8-4v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 11.5V16c0 1.1 2.7 2.5 6 2.5s6-1.4 6-2.5v-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="wm">Cendekia Bangsa<small>SMA · Akreditasi A</small></span>
+      </a>
+      <div class="navlinks">
+        <a href="#profil">Profil</a><a href="#visimisi">Visi &amp; Misi</a><a href="#program">Program</a><a href="#fasilitas">Fasilitas</a><a href="#galeri">Galeri</a><a href="#kontak">Kontak</a>
+      </div>
+      <a href="#kontak" class="btn btn-accent btn-sm cta">Hubungi Kami</a>
+      <button class="menu-btn" data-menu-btn="#mobnav" aria-label="Menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="mobnav" id="mobnav">
+  <a href="#profil">Profil</a><a href="#visimisi">Visi &amp; Misi</a><a href="#program">Program</a><a href="#fasilitas">Fasilitas</a><a href="#galeri">Galeri</a><a href="#kontak">Kontak</a>
+</div>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="toprule">
+      <span class="kick">SMAS Cendekia Bangsa</span>
+      <span class="kick"><span class="g">●</span> Est. 1998 — Terakreditasi A</span>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <h1>Pendidikan yang <em>membentuk</em> pemimpin masa depan.</h1>
+        <p class="lead">Memadukan keunggulan akademik, karakter mulia, dan keterampilan abad 21 dalam lingkungan belajar yang menumbuhkan.</p>
+        <div class="cta-row">
+          <a href="#profil" class="btn btn-accent btn-lg">Telusuri Profil
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#kontak" class="btn btn-ghost btn-lg">Jadwalkan Kunjungan</a>
+        </div>
+      </div>
+      <aside class="hero-side">
+        <div class="portrait reveal" style="background-image:url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=700&q=80&auto=format&fit=crop'); background-size:cover; background-position:center">
+          <div class="pc"><span class="kick">Wisuda Angkatan 2025</span></div>
+        </div>
+        <div class="hstats">
+          <div class="s"><b>1.250+</b><span>Siswa Aktif</span></div>
+          <div class="s"><b>98%</b><span>Lulus PTN/PTS</span></div>
+          <div class="s"><b>27</b><span>Tahun</span></div>
+          <div class="s"><b>120+</b><span>Prestasi</span></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</header>
+
+<!-- SAMBUTAN -->
+<section class="section" id="profil" style="padding-top:clamp(28px,4vw,52px)">
+  <div class="wrap">
+    <div class="secnum"><span class="no">01</span><h2>Sambutan</h2><span class="meta">Kepala Sekolah</span></div>
+    <div class="welcome">
+      <div class="pf reveal" style="background-image:url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=700&q=80&auto=format&fit=crop'); background-size:cover; background-position:center">
+        <div class="pc"><b>Dr. H. Ahmad Fauzi, M.Pd.</b><span>Kepala Sekolah</span></div>
+      </div>
+      <div class="reveal">
+        <p class="quote"><span class="dq">“</span>Kami membimbing setiap siswa tumbuh menjadi pribadi yang berilmu, berkarakter, dan siap menghadapi masa depan dengan percaya diri.<span class="dq">”</span></p>
+        <p style="margin-top:22px; color:var(--ink-2)">Dengan dukungan tenaga pendidik profesional dan lingkungan belajar yang kondusif, kami percaya setiap anak memiliki potensi luar biasa yang layak dikembangkan sepenuhnya. Terima kasih atas kepercayaan Bapak/Ibu kepada sekolah kami.</p>
+        <div class="sign"><div class="nm">Ahmad Fauzi</div><div class="ro">Kepala SMAS Cendekia Bangsa</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISI MISI -->
+<section class="section" id="visimisi" style="padding-top:0">
+  <div class="wrap">
+    <div class="secnum"><span class="no">02</span><h2>Visi &amp; Misi</h2><span class="meta">Arah &amp; Tujuan</span></div>
+    <div class="vm">
+      <div class="visi reveal">
+        <span class="kick">Visi</span>
+        <p class="big">Terwujudnya generasi yang beriman, berilmu, <em>berakhlak mulia</em>, dan berdaya saing global.</p>
+      </div>
+      <div class="reveal">
+        <span class="kick" style="color:var(--gold)">Misi</span>
+        <ul class="misi">
+          <li><span class="n">01</span><p>Menyelenggarakan pembelajaran aktif, inovatif, dan menyenangkan berbasis teknologi.</p></li>
+          <li><span class="n">02</span><p>Membina karakter religius, disiplin, dan kepedulian sosial siswa.</p></li>
+          <li><span class="n">03</span><p>Mengembangkan bakat dan minat melalui kegiatan ekstrakurikuler unggulan.</p></li>
+          <li><span class="n">04</span><p>Meningkatkan profesionalitas tenaga pendidik secara berkelanjutan.</p></li>
+          <li><span class="n">05</span><p>Membangun kemitraan dengan orang tua dan masyarakat untuk kemajuan sekolah.</p></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM -->
+<section class="section" id="program" style="padding-top:0">
+  <div class="wrap">
+    <div class="secnum"><span class="no">03</span><h2>Program Unggulan</h2><span class="meta">Keunggulan Kami</span></div>
+    <div class="prog">
+      <div class="p reveal"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 2 8l10 5 8-4v6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 11.5V16c0 1.1 2.7 2.5 6 2.5s6-1.4 6-2.5v-4.5" stroke="currentColor" stroke-width="1.7"/></svg></span><span class="no">A1</span><h3>Kelas Unggulan Sains</h3><p>Pendalaman MIPA dengan pembimbingan olimpiade dan laboratorium modern.</p></div>
+      <div class="p reveal"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="no">A2</span><h3>Tahfizh &amp; Karakter</h3><p>Program hafalan Al-Qur'an dan pembinaan akhlak terintegrasi harian.</p></div>
+      <div class="p reveal"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 17V9m4 8V5m4 12v-6m4 6V8m4 9v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="no">A3</span><h3>Literasi Digital</h3><p>Pembelajaran coding, desain, dan keterampilan teknologi abad 21.</p></div>
+      <div class="p reveal"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="no">A4</span><h3>Bahasa Internasional</h3><p>Pengayaan Inggris &amp; Arab dengan native speaker dan klub bahasa.</p></div>
+      <div class="p reveal"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="no">A5</span><h3>Pembinaan Prestasi</h3><p>Pendampingan lomba akademik, olahraga, dan seni hingga tingkat nasional.</p></div>
+      <div class="p reveal"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="no">A6</span><h3>Konseling &amp; Karier</h3><p>Bimbingan studi lanjut dan perencanaan karier untuk setiap siswa.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FASILITAS -->
+<section class="section" id="fasilitas" style="padding-top:0">
+  <div class="wrap">
+    <div class="secnum"><span class="no">04</span><h2>Fasilitas</h2><span class="meta">Sarana &amp; Prasarana</span></div>
+    <div class="fac reveal">
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19V5a1 1 0 0 1 1-1h6v15H5a1 1 0 0 1-1-1ZM13 4h6a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-6z" stroke="currentColor" stroke-width="1.6"/></svg></span><b>Perpustakaan</b><span>01</span></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M9 3v6l-4 8a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-4-8V3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><b>Lab IPA &amp; Komputer</b><span>02</span></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M6 21V8l6-4 6 4v13" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><b>Masjid Sekolah</b><span>03</span></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="1.6"/></svg></span><b>Lapangan Olahraga</b><span>04</span></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="1" stroke="currentColor" stroke-width="1.6"/></svg></span><b>Kelas Multimedia</b><span>05</span></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M19 14c0 4-7 7-7 7s-7-3-7-7a7 7 0 0 1 14 0Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="11" r="2.5" stroke="currentColor" stroke-width="1.6"/></svg></span><b>UKS &amp; Klinik</b><span>06</span></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11h16M6 11V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4M5 11v6m14-6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><b>Asrama Boarding</b><span>07</span></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="12" rx="1" stroke="currentColor" stroke-width="1.6"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.6"/></svg></span><b>Kantin Sehat</b><span>08</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERI -->
+<section class="section" id="galeri" style="padding-top:0">
+  <div class="wrap">
+    <div class="secnum"><span class="no">05</span><h2>Galeri</h2><span class="meta">Dokumentasi Kegiatan</span></div>
+    <div class="gallery reveal">
+      <div class="g photo tone wide tall" style="background-image:url('https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=800&q=80&auto=format&fit=crop')"><div class="cap"><span class="kick" style="color:#fff">Kegiatan Sekolah</span></div></div>
+      <div class="g photo" style="background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500&q=80&auto=format&fit=crop')"></div>
+      <div class="g photo" style="background-image:url('https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=500&q=80&auto=format&fit=crop')"></div>
+      <div class="g photo" style="background-image:url('https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=500&q=80&auto=format&fit=crop')"></div>
+      <div class="g photo tone wide" style="background-image:url('https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&q=80&auto=format&fit=crop')"><div class="cap"><span class="kick" style="color:#fff">Pembelajaran</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAK -->
+<section class="section" id="kontak" style="padding-top:0">
+  <div class="wrap">
+    <div class="secnum"><span class="no">06</span><h2>Kontak</h2><span class="meta">Lokasi &amp; Informasi</span></div>
+    <div class="contact">
+      <div class="reveal">
+        <div class="inforow"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M19 14c0 4-7 7-7 7s-7-3-7-7a7 7 0 0 1 14 0Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="11" r="2.5" stroke="currentColor" stroke-width="1.6"/></svg></span><div><b>Alamat</b><span>Jl. Pendidikan No. 45, Cibadak, Kab. Sukabumi, Jawa Barat 43351</span></div></div>
+        <div class="inforow"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5a2 2 0 0 1 2-2h2l2 5-2 1c1 2 3 4 5 5l1-2 5 2v2a2 2 0 0 1-2 2A16 16 0 0 1 4 7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><div><b>Telepon / WhatsApp</b><span>(0266) 123-456 · 0812-3456-7890</span></div></div>
+        <div class="inforow"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="1" stroke="currentColor" stroke-width="1.6"/><path d="m3 7 9 6 9-6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><div><b>Email</b><span>info@cendekiabangsa.sch.id</span></div></div>
+        <div class="inforow"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><div><b>Jam Operasional</b><span>Senin–Jumat, 07.00 – 16.00 WIB</span></div></div>
+      </div>
+      <div class="map reveal">
+        <div class="grid-bg"></div>
+        <div class="pin"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg></div>
+        <div class="ml">SMAS CENDEKIA BANGSA · -6.92, 106.78</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="grid-f">
+      <div>
+        <a class="brand" href="#top"><span class="crest"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 2 8l10 5 8-4v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 11.5V16c0 1.1 2.7 2.5 6 2.5s6-1.4 6-2.5v-4.5" stroke="currentColor" stroke-width="1.8"/></svg></span><span class="wm">Cendekia Bangsa</span></a>
+        <p style="margin-top:18px; font-size:.92rem; max-width:300px">Membentuk generasi cerdas, berakhlak, dan berprestasi sejak 1998.</p>
+      </div>
+      <div><h4>Tautan</h4><a href="#profil">Profil</a><a href="#visimisi">Visi &amp; Misi</a><a href="#program">Program</a><a href="#fasilitas">Fasilitas</a></div>
+      <div><h4>Informasi</h4><a href="#galeri">Galeri</a><a href="#kontak">Kontak</a><a href="#">PPDB</a><a href="#">Berita</a></div>
+      <div><h4>Alamat</h4><p style="font-size:.92rem">Jl. Pendidikan No. 45, Cibadak, Kab. Sukabumi, Jawa Barat 43351</p><p style="font-size:.92rem; margin-top:8px">(0266) 123-456<br/>info@cendekiabangsa.sch.id</p></div>
+    </div>
+    <div class="copy"><span>© 2026 SMAS CENDEKIA BANGSA</span><span>DIBUAT DENGAN SEKOLAHKU STARTER</span></div>
+  </div>
+</footer>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

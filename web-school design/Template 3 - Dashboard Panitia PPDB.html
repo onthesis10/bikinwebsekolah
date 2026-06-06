@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard Panitia PPDB — SMK Bina Teknologi</title>
+<link rel="stylesheet" href="assets/base.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --canvas:#efeae3; --canvas-2:#e5dfd5; --paper:#fbf8f3; --paper-2:#f4f0e8;
+    --ink:#1a1411; --ink-2:#473f3a; --muted:#7f766d; --line:#ddd5c9; --line-2:#e7e1d6;
+    --graphite:#16100e; --graphite-2:#1f1714;
+    --maroon:#7d2233; --maroon-deep:#5c1624; --maroon-50:#f1e1e3; --amber:#dca03f;
+    --accent:#7d2233; --accent-deep:#5c1624; --accent-ink:#fff;
+    --on-ink:#f1ede6; --on-ink-mute:#a99f95; --on-ink-line:rgba(241,237,230,.12);
+  }
+  body{ background:var(--canvas); }
+  .display,h1,h2,h3,h4{ font-family:'Sora',sans-serif; font-weight:700; letter-spacing:-.025em; }
+  .mono{ font-family:'Space Mono',monospace; }
+  .btn{ border-radius:6px; font-family:'Sora'; } .btn-primary{ background:var(--maroon); color:#fff; } .btn-primary:hover{ background:var(--maroon-deep); }
+
+  .app{ display:grid; grid-template-columns:264px 1fr; min-height:100vh; }
+  @media (max-width:960px){ .app{ grid-template-columns:1fr; } }
+
+  /* SIDEBAR */
+  .sidebar{ background:var(--graphite); color:var(--on-ink-mute); display:flex; flex-direction:column; padding:20px 16px; position:sticky; top:0; height:100vh; }
+  @media (max-width:960px){ .sidebar{ position:fixed; inset:0 auto 0 0; width:264px; z-index:80; transform:translateX(-100%); transition:transform .25s; } .sidebar.open{ transform:none; box-shadow:var(--shadow-lg); } }
+  .sb-brand{ display:flex; align-items:center; gap:11px; padding:6px 8px 18px; }
+  .sb-brand .mk{ width:40px; height:40px; border-radius:9px; background:var(--maroon); color:#fff; display:grid; place-items:center; flex:none; position:relative; } .sb-brand .mk svg{ width:21px; height:21px; }
+  .sb-brand .mk::after{ content:""; position:absolute; inset:0; border-radius:9px; box-shadow:0 0 16px -2px var(--maroon); opacity:.6; }
+  .sb-brand b{ color:#fff; font-family:'Sora'; font-size:.98rem; line-height:1.1; } .sb-brand span{ font-family:'Space Mono'; font-size:.58rem; color:var(--on-ink-mute); text-transform:uppercase; letter-spacing:.1em; }
+  .sb-sec{ font-family:'Space Mono'; font-size:.62rem; text-transform:uppercase; letter-spacing:.14em; color:#6b5f58; padding:16px 10px 8px; }
+  .nav-link{ display:flex; align-items:center; gap:12px; padding:11px 12px; border-radius:9px; color:var(--on-ink-mute); font-family:'Sora'; font-weight:500; font-size:.92rem; transition:.16s; }
+  .nav-link svg{ width:19px; height:19px; flex:none; }
+  .nav-link:hover{ background:rgba(241,237,230,.06); color:#fff; }
+  .nav-link.active{ background:var(--maroon); color:#fff; box-shadow:0 8px 20px -8px var(--maroon); }
+  .nav-link .cnt{ margin-left:auto; font-family:'Space Mono'; font-size:.7rem; background:rgba(241,237,230,.14); padding:2px 8px; border-radius:99px; }
+  .sb-foot{ margin-top:auto; padding-top:16px; }
+  .sb-user{ display:flex; align-items:center; gap:11px; padding:11px; border-radius:11px; background:rgba(241,237,230,.05); }
+  .sb-user .av{ width:36px; height:36px; border-radius:9px; background:var(--maroon); color:#fff; display:grid; place-items:center; font-family:'Space Mono'; font-weight:700; font-size:.82rem; }
+  .sb-user b{ color:#fff; font-family:'Sora'; font-size:.85rem; display:block; } .sb-user span{ font-family:'Space Mono'; font-size:.66rem; color:var(--on-ink-mute); }
+  .sb-bg{ display:none; } @media (max-width:960px){ .sb-bg.show{ display:block; position:fixed; inset:0; background:rgba(22,16,14,.5); z-index:79; } }
+
+  /* MAIN */
+  .main{ display:flex; flex-direction:column; min-width:0; }
+  .topbar{ height:68px; background:color-mix(in srgb,var(--canvas) 86%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:16px; padding:0 clamp(16px,2.4vw,28px); position:sticky; top:0; z-index:40; }
+  .sb-toggle{ display:none; width:42px; height:42px; border-radius:9px; border:1px solid var(--line); background:var(--paper); align-items:center; justify-content:center; } .sb-toggle svg{ width:20px; height:20px; }
+  @media (max-width:960px){ .sb-toggle{ display:flex; } }
+  .pg-title b{ font-family:'Sora'; font-size:1.05rem; } .pg-title span{ font-family:'Space Mono'; font-size:.72rem; color:var(--muted); }
+  .topbar .search{ margin-left:auto; position:relative; width:min(320px,40vw); }
+  .topbar .search svg{ position:absolute; left:13px; top:50%; transform:translateY(-50%); width:17px; height:17px; color:var(--muted); }
+  .topbar .search input{ width:100%; padding:11px 14px 11px 38px; border:1px solid var(--line); border-radius:8px; background:var(--paper); font-size:.9rem; font-family:'Sora'; }
+  .topbar .search input:focus{ outline:none; border-color:var(--maroon); box-shadow:0 0 0 3px var(--maroon-50); }
+  @media (max-width:600px){ .pg-title span{ display:none; } .topbar .search{ width:auto; flex:1; } }
+  .icon-btn{ width:42px; height:42px; border-radius:9px; border:1px solid var(--line); background:var(--paper); display:grid; place-items:center; position:relative; flex:none; } .icon-btn svg{ width:19px; height:19px; color:var(--ink-2); }
+  .icon-btn .ping{ position:absolute; top:9px; right:10px; width:8px; height:8px; border-radius:50%; background:var(--maroon); border:2px solid var(--paper); }
+
+  .content{ padding:clamp(18px,2.6vw,30px); display:flex; flex-direction:column; gap:24px; }
+  .phead{ display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .phead h1{ font-size:clamp(1.5rem,2.6vw,2rem); } .phead p{ color:var(--muted); font-size:.92rem; margin-top:4px; font-family:'Space Mono'; }
+  .phead .actions{ display:flex; gap:10px; }
+
+  /* KPIs */
+  .kpis{ display:grid; grid-template-columns:repeat(6,1fr); gap:14px; }
+  @media (max-width:1100px){ .kpis{ grid-template-columns:repeat(3,1fr); } } @media (max-width:560px){ .kpis{ grid-template-columns:repeat(2,1fr); } }
+  .kpi-card{ background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:18px; }
+  .kpi-ic{ width:38px; height:38px; border-radius:10px; display:grid; place-items:center; margin-bottom:12px; } .kpi-ic svg{ width:20px; height:20px; }
+  .kpi-num{ font-family:'Sora'; font-size:1.9rem; font-weight:700; letter-spacing:-.03em; line-height:1; }
+  .kpi-label{ font-family:'Space Mono'; font-size:.68rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; margin-top:6px; }
+  .t-brand .kpi-ic{ background:var(--maroon-50); color:var(--maroon); }
+  .t-info .kpi-ic{ background:var(--info-50); color:var(--info); }
+  .t-warn .kpi-ic{ background:var(--warn-50); color:var(--warn); }
+  .t-ok .kpi-ic{ background:var(--ok-50); color:var(--ok); }
+  .t-danger .kpi-ic{ background:var(--danger-50); color:var(--danger); }
+  .t-plum .kpi-ic{ background:var(--plum-50); color:var(--plum); }
+
+  /* CHARTS */
+  .charts{ display:grid; grid-template-columns:1.3fr 1fr; gap:18px; } @media (max-width:900px){ .charts{ grid-template-columns:1fr; } }
+  .panel{ background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:22px; }
+  .panel-h{ display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+  .panel-h b{ font-family:'Sora'; font-size:1.05rem; } .panel-h span{ font-family:'Space Mono'; font-size:.7rem; color:var(--muted); }
+  .chart{ display:flex; align-items:flex-end; gap:14px; height:200px; padding-top:20px; }
+  .bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; height:100%; justify-content:flex-end; }
+  .bar{ width:100%; max-width:52px; border-radius:7px 7px 0 0; transition:height .6s cubic-bezier(.2,.7,.2,1); }
+  .bar-baru{ background:var(--info); } .bar-verifikasi{ background:var(--warn); } .bar-diterima{ background:var(--ok); } .bar-ditolak{ background:var(--danger); } .bar-cadangan{ background:var(--plum); }
+  .bar-val{ font-family:'Space Mono'; font-weight:700; font-size:.92rem; } .bar-lbl{ font-family:'Space Mono'; font-size:.62rem; color:var(--muted); text-align:center; text-transform:uppercase; }
+  .jur-list{ display:flex; flex-direction:column; gap:14px; }
+  .jur-top{ display:flex; justify-content:space-between; font-size:.86rem; margin-bottom:5px; } .jur-top span{ color:var(--ink-2); } .jur-top b{ font-family:'Space Mono'; }
+  .jur-track{ height:7px; background:var(--canvas-2); border-radius:99px; overflow:hidden; } .jur-fill{ height:100%; background:linear-gradient(90deg,var(--maroon),var(--amber)); border-radius:99px; transition:width .6s ease; }
+
+  /* TOOLBAR */
+  .toolbar{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .stat-pills{ display:flex; gap:6px; flex-wrap:wrap; }
+  .stat-pill{ padding:8px 14px; border-radius:7px; border:1px solid var(--line); background:var(--paper); font-family:'Sora'; font-weight:600; font-size:.82rem; color:var(--ink-2); }
+  .stat-pill.active{ background:var(--graphite); color:#fff; border-color:var(--graphite); }
+  .fselect{ padding:9px 14px; border:1px solid var(--line); border-radius:8px; background:var(--paper); font-family:'Sora'; font-weight:500; font-size:.84rem; color:var(--ink-2); }
+  .tb-spacer{ margin-left:auto; }
+
+  /* TABLE */
+  .table-card{ background:var(--paper); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .table-head{ display:flex; align-items:center; justify-content:space-between; padding:18px 22px; border-bottom:1px solid var(--line); flex-wrap:wrap; gap:10px; }
+  .table-head b{ font-family:'Sora'; font-size:1.05rem; } .table-head .muted{ font-family:'Space Mono'; font-size:.78rem; }
+  .table-scroll{ overflow-x:auto; }
+  table.data{ width:100%; border-collapse:separate; border-spacing:0; font-size:.9rem; min-width:780px; }
+  table.data th{ text-align:left; padding:13px 22px; font-family:'Space Mono'; font-size:.66rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); background:var(--canvas-2); font-weight:400; white-space:nowrap; }
+  table.data td{ padding:14px 22px; border-bottom:1px solid var(--line-2); vertical-align:middle; }
+  table.data tbody tr{ cursor:pointer; transition:background .12s; } table.data tbody tr:hover{ background:var(--maroon-50); }
+  .cell-name{ display:flex; align-items:center; gap:12px; }
+  .cell-name .av{ width:38px; height:38px; border-radius:10px; flex:none; background:var(--maroon-50); color:var(--maroon); display:grid; place-items:center; font-family:'Space Mono'; font-weight:700; font-size:.78rem; }
+  .cell-name b{ font-family:'Sora'; font-size:.92rem; display:block; } .cell-name span{ font-family:'Space Mono'; font-size:.72rem; color:var(--muted); }
+  .td-jur{ color:var(--ink-2); }
+  .badge{ border-radius:5px; font-family:'Space Mono'; font-weight:700; font-size:.64rem; letter-spacing:.04em; text-transform:uppercase; }
+  .act{ display:flex; gap:6px; }
+  .act-btn{ width:34px; height:34px; border-radius:8px; border:1px solid var(--line); background:var(--paper); display:grid; place-items:center; color:var(--ink-2); transition:.14s; } .act-btn svg{ width:17px; height:17px; }
+  .act-btn:hover{ transform:translateY(-1px); box-shadow:var(--shadow-sm); }
+  .act-btn.ok:hover{ background:var(--ok-50); color:var(--ok); border-color:var(--ok-50); }
+  .act-btn.danger:hover{ background:var(--danger-50); color:var(--danger); border-color:var(--danger-50); }
+
+  .sk{ background:linear-gradient(100deg,var(--canvas-2) 30%,#dcd4c8 50%,var(--canvas-2) 70%); background-size:200% 100%; animation:shimmer 1.3s infinite; }
+  @keyframes shimmer{ to{ background-position:-200% 0; } }
+  .t-empty{ text-align:center; padding:50px 24px; }
+  .t-empty .empty-ic{ width:58px; height:58px; border-radius:14px; background:var(--maroon-50); color:var(--maroon); display:grid; place-items:center; margin:0 auto 14px; } .t-empty .empty-ic svg{ width:27px; height:27px; }
+  .t-empty h3{ font-size:1.15rem; } .t-empty p{ color:var(--muted); margin:6px auto 14px; max-width:340px; font-size:.9rem; }
+
+  /* DRAWER */
+  .drawer{ position:fixed; inset:0; z-index:90; display:none; } .drawer.open{ display:block; }
+  .drawer-bg{ position:absolute; inset:0; background:rgba(22,16,14,.55); backdrop-filter:blur(2px); }
+  .drawer-panel{ position:absolute; top:0; right:0; bottom:0; width:min(440px,100%); background:var(--paper); box-shadow:var(--shadow-lg); display:flex; flex-direction:column; animation:slidein .28s cubic-bezier(.2,.7,.2,1); }
+  @keyframes slidein{ from{ transform:translateX(30px); opacity:.6; } }
+  .drawer-top{ padding:22px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:14px; }
+  .drawer-av{ width:50px; height:50px; border-radius:12px; background:var(--maroon-50); color:var(--maroon); display:grid; place-items:center; font-family:'Space Mono'; font-weight:700; flex:none; }
+  .drawer-name{ font-family:'Sora'; font-size:1.15rem; font-weight:700; } .drawer-id{ font-family:'Space Mono'; font-size:.78rem; color:var(--muted); }
+  .drawer-close{ margin-left:auto; width:38px; height:38px; border-radius:9px; border:1px solid var(--line); background:var(--paper); display:grid; place-items:center; } .drawer-close svg{ width:18px; height:18px; }
+  .drawer-body{ padding:22px; overflow-y:auto; flex:1; }
+  .d-status{ margin-bottom:18px; }
+  .d-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .d-field span{ font-family:'Space Mono'; font-size:.64rem; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); display:block; } .d-field b{ font-family:'Sora'; font-size:.92rem; }
+  .d-docs{ margin-top:24px; } .d-docs > b{ font-family:'Sora'; font-size:.9rem; display:block; margin-bottom:12px; }
+  .doc-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .doc{ display:flex; align-items:center; gap:10px; padding:12px; border:1px solid var(--line); border-radius:9px; font-size:.84rem; color:var(--ink-2); } .doc svg{ width:20px; height:20px; color:var(--maroon); flex:none; }
+  .d-actions{ display:flex; gap:8px; margin-top:24px; } .d-actions .btn{ padding:12px 10px; font-size:.86rem; }
+
+  .toast{ position:fixed; bottom:22px; left:50%; transform:translate(-50%,20px); background:var(--graphite); color:#fff; padding:13px 22px; border-radius:99px; font-family:'Space Mono'; font-size:.84rem; box-shadow:var(--shadow-lg); z-index:120; opacity:0; transition:.25s; pointer-events:none; }
+  .toast.show{ transform:translate(-50%,0); opacity:1; }
+  .backhub{ display:inline-flex; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="sb-bg" id="sb-bg"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-brand">
+      <span class="mk"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 2 8l10 5 8-4v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 11.5V16c0 1.1 2.7 2.5 6 2.5s6-1.4 6-2.5v-4.5" stroke="currentColor" stroke-width="2"/></svg></span>
+      <div><b>Panitia PPDB</b><span>SMK Bina Teknologi</span></div>
+    </div>
+    <nav style="display:flex; flex-direction:column; gap:3px">
+      <span class="sb-sec">Menu</span>
+      <a href="#" class="nav-link active"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="12" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="16" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="1.8"/></svg>Overview</a>
+      <a href="#" class="nav-link"><svg viewBox="0 0 24 24" fill="none"><path d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Data Pendaftar<span class="cnt">12</span></a>
+      <a href="#" class="nav-link"><svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/></svg>Verifikasi<span class="cnt">5</span></a>
+      <a href="#" class="nav-link"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Jadwal Seleksi</a>
+      <a href="#" class="nav-link"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h8V3H3zM13 21h8V3h-8zM3 21h8v-4H3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Statistik</a>
+      <span class="sb-sec">Lainnya</span>
+      <a href="#" class="nav-link"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.91 1V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 3.6 14H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 5 8.6a1.65 1.65 0 0 0-.4-1.8l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 10 4.6h.09A1.65 1.65 0 0 0 11 3" stroke="currentColor" stroke-width="1.6"/></svg>Pengaturan</a>
+      <a href="Template 3 - SekolahKu PPDB.html" class="nav-link"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M5 12l5-5M5 12l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Lihat Situs Publik</a>
+    </nav>
+    <div class="sb-foot">
+      <div class="sb-user"><span class="av">AR</span><div style="flex:1"><b>Andi Rahman</b><span>Ketua Panitia</span></div></div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="sb-toggle" id="sb-toggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <div class="pg-title"><b>Overview PPDB 2026/2027</b><span style="display:block">Gelombang 1 &amp; 2 · Update hari ini</span></div>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="m20 20-3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input id="search" placeholder="Cari nama / no. pendaftaran…" />
+      </div>
+      <button class="icon-btn" aria-label="Notifikasi"><svg viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.7 21a2 2 0 0 1-3.4 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span class="ping"></span></button>
+      <a href="index.html" class="btn btn-soft btn-sm backhub">← Katalog</a>
+    </header>
+
+    <div class="content">
+      <div class="phead">
+        <div><h1>Selamat datang, Andi</h1><p>Kelola seluruh data pendaftar PPDB di satu tempat.</p></div>
+        <div class="actions">
+          <button class="btn btn-soft btn-sm" id="demo-load"><svg viewBox="0 0 24 24" width="16" fill="none"><path d="M21 12a9 9 0 1 1-6.2-8.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Demo Loading</button>
+          <button class="btn btn-primary btn-sm" id="export"><svg viewBox="0 0 24 24" width="16" fill="none"><path d="M12 3v12m0 0 4-4m-4 4-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Export Data</button>
+        </div>
+      </div>
+
+      <div class="kpis" id="kpis"></div>
+
+      <div class="charts">
+        <div class="panel"><div class="panel-h"><b>Pendaftar per Status</b><span>Gel. 1 &amp; 2</span></div><div class="chart" id="chart"></div></div>
+        <div class="panel"><div class="panel-h"><b>Distribusi Jurusan</b><span>Pilihan 1</span></div><div class="jur-list" id="jur-list"></div></div>
+      </div>
+
+      <div class="toolbar">
+        <div class="stat-pills">
+          <button class="stat-pill active" data-stat="">Semua</button>
+          <button class="stat-pill" data-stat="baru">Baru</button>
+          <button class="stat-pill" data-stat="verifikasi">Verifikasi</button>
+          <button class="stat-pill" data-stat="diterima">Diterima</button>
+          <button class="stat-pill" data-stat="ditolak">Ditolak</button>
+          <button class="stat-pill" data-stat="cadangan">Cadangan</button>
+        </div>
+        <div class="tb-spacer"></div>
+        <select class="fselect" id="f-gel"><option value="">Semua Gelombang</option><option value="G1">Gelombang 1</option><option value="G2">Gelombang 2</option></select>
+        <select class="fselect" id="f-jalur"><option value="">Semua Jalur</option><option value="Reguler">Reguler</option><option value="Prestasi">Prestasi</option><option value="Afirmasi">Afirmasi</option></select>
+        <button class="btn btn-soft btn-sm" id="reset">Reset</button>
+      </div>
+
+      <div class="table-card">
+        <div class="table-head">
+          <div><b>Data Pendaftar</b> <span class="muted">· <span id="row-count">0</span> entri</span></div>
+          <span class="badge badge-muted"><span class="dot"></span>Klik baris untuk detail</span>
+        </div>
+        <div class="table-scroll">
+          <table class="data">
+            <thead><tr><th>Nama Pendaftar</th><th>Asal Sekolah</th><th>Jalur</th><th>Gel.</th><th>Jurusan</th><th>Status</th><th>Aksi</th></tr></thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-bg" data-close-drawer></div>
+  <div class="drawer-panel">
+    <div class="drawer-top">
+      <span class="drawer-av">--</span>
+      <div style="flex:1"><div class="drawer-name">Nama</div><div class="drawer-id">ID</div></div>
+      <button class="drawer-close" data-close-drawer aria-label="Tutup"><svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    </div>
+    <div class="drawer-body"></div>
+  </div>
+</div>
+
+<script src="assets/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id" class="theme-academy">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Logo Final — bikinwebsekolah.com (Rumah Web)</title>
+<link rel="stylesheet" href="assets/base.css" />
+<style>
+  body{ background:var(--canvas); }
+  .page{ padding-block:clamp(34px,5vw,72px); }
+
+  .lh{ display:flex; flex-direction:column; gap:14px; padding-bottom:clamp(26px,3vw,40px); border-bottom:1px solid var(--line); }
+  .lh .pill{ align-self:flex-start; display:inline-flex; align-items:center; gap:8px; font-family:'Space Grotesk'; font-size:.72rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); background:var(--lime); padding:7px 13px; border-radius:999px; }
+  .lh h1{ font-family:'Space Grotesk'; font-weight:700; font-size:clamp(2rem,4.5vw,3.2rem); letter-spacing:-.03em; }
+  .lh p{ max-width:640px; color:var(--ink-2); font-size:1.05rem; }
+
+  .sec{ margin-top:clamp(34px,4.5vw,64px); }
+  .sec > .st{ display:flex; align-items:center; gap:14px; margin-bottom:22px; }
+  .sec > .st .no{ font-family:'Space Grotesk'; font-size:.8rem; font-weight:600; color:var(--lime-deep); }
+  .sec > .st h2{ font-family:'Space Grotesk'; font-weight:700; font-size:clamp(1.3rem,2.4vw,1.8rem); letter-spacing:-.02em; white-space:nowrap; }
+  .sec > .st .ln{ flex:1; height:1px; background:var(--line); }
+
+  /* marks */
+  .mk{ display:block; } .mk.xl{ width:104px; height:104px; } .mk.lg{ width:64px; height:64px; } .mk.md{ width:46px; height:46px; } .mk.sm{ width:32px; height:32px; }
+  .wm{ font-family:'Space Grotesk'; font-weight:500; letter-spacing:-.03em; color:currentColor; line-height:1; white-space:nowrap; }
+  .wm b{ font-weight:700; } .wm i{ font-style:normal; font-weight:600; font-size:.6em; color:var(--lime-deep); }
+
+  /* hero lockup */
+  .hero-lock{ background:radial-gradient(120% 130% at 100% 0%, color-mix(in srgb,var(--lime) 20%, transparent), transparent 55%), var(--paper);
+    border:1px solid var(--line); border-radius:22px; padding:clamp(34px,5vw,72px); display:flex; align-items:center; justify-content:center; gap:26px; color:var(--ink); --acc:var(--lime); }
+  .hero-lock .wm{ font-size:clamp(1.8rem,4vw,2.8rem); }
+
+  /* lockup grid */
+  .lg-grid{ display:grid; grid-template-columns:1.4fr 1fr; gap:18px; }
+  @media (max-width:820px){ .lg-grid{ grid-template-columns:1fr; } }
+  .cell{ background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:34px; display:flex; align-items:center; justify-content:center; color:var(--ink); --acc:var(--lime); position:relative; min-height:150px; }
+  .cell .lbl{ position:absolute; top:14px; left:16px; font-family:'Space Grotesk'; font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .cell.stack{ flex-direction:column; gap:14px; }
+  .cell .lockH{ display:inline-flex; align-items:center; gap:16px; }
+
+  /* color/bg swatches */
+  .row4{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  @media (max-width:820px){ .row4{ grid-template-columns:1fr 1fr; } }
+  .bx{ border:1px solid var(--line); border-radius:14px; min-height:130px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+  .bx .cap{ position:absolute; bottom:10px; left:0; right:0; text-align:center; font-family:'Space Grotesk'; font-size:.62rem; letter-spacing:.06em; text-transform:uppercase; }
+  .bx.cream{ background:var(--canvas); color:var(--ink); --acc:var(--lime); } .bx.cream .cap{ color:var(--muted); }
+  .bx.paper{ background:var(--paper); color:var(--ink); --acc:var(--lime); } .bx.paper .cap{ color:var(--muted); }
+  .bx.ink{ background:var(--ink); color:#f3f1ea; --acc:var(--lime); } .bx.ink .cap{ color:var(--on-ink-mute); }
+  .bx.lime{ background:var(--lime); color:var(--ink); --acc:var(--ink); } .bx.lime .cap{ color:#46570f; }
+  .bx.photo{ background:center/cover url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=600&q=80&auto=format&fit=crop'); color:#fff; --acc:var(--lime); }
+  .bx.photo::before{ content:""; position:absolute; inset:0; background:rgba(17,15,11,.5); }
+  .bx.photo .mk, .bx.photo .cap{ position:relative; z-index:1; } .bx.photo .cap{ color:rgba(255,255,255,.8); }
+  /* accent variants */
+  .bx.acc-lime{ background:var(--paper); color:var(--ink); --acc:#b6e234; }
+  .bx.acc-cobalt{ background:var(--paper); color:var(--ink); --acc:#3f7bff; }
+  .bx.acc-coral{ background:var(--paper); color:var(--ink); --acc:#ff7a45; }
+  .bx.acc-ink{ background:var(--paper); color:var(--ink); --acc:var(--ink); }
+
+  /* favicon sizes */
+  .favs{ display:flex; align-items:flex-end; gap:26px; flex-wrap:wrap; }
+  .favitem{ display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .favitem .chip{ background:var(--ink); border-radius:22%; display:grid; place-items:center; color:var(--lime); --acc:var(--ink); }
+  .favitem .chip.c1{ width:64px; height:64px; } .favitem .chip.c1 .mk{ width:40px; height:40px; }
+  .favitem .chip.c2{ width:48px; height:48px; } .favitem .chip.c2 .mk{ width:30px; height:30px; }
+  .favitem .chip.c3{ width:32px; height:32px; border-radius:24%; } .favitem .chip.c3 .mk{ width:20px; height:20px; }
+  .favitem .chip.c4{ width:16px; height:16px; border-radius:26%; } .favitem .chip.c4 .mk{ width:11px; height:11px; }
+  .favitem.lime .chip{ background:var(--lime); color:var(--ink); --acc:var(--ink); }
+  .favitem span{ font-family:'Space Grotesk'; font-size:.66rem; color:var(--muted); }
+
+  /* clearspace + minsize */
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:18px; } @media (max-width:760px){ .two{ grid-template-columns:1fr; } }
+  .panel{ background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:30px; }
+  .panel h3{ font-family:'Space Grotesk'; font-weight:700; font-size:1.05rem; margin-bottom:6px; }
+  .panel p{ font-size:.88rem; color:var(--ink-2); margin-bottom:18px; }
+  .clearbox{ display:inline-flex; padding:26px; background:repeating-linear-gradient(45deg,var(--canvas),var(--canvas) 7px,transparent 7px,transparent 14px); border:1px dashed var(--line); border-radius:10px; color:var(--ink); --acc:var(--lime); }
+  .clearbox .inner{ background:var(--paper); padding:18px; display:inline-flex; }
+  .minrow{ display:flex; align-items:flex-end; gap:24px; color:var(--ink); --acc:var(--lime); }
+  .minrow .u{ display:flex; flex-direction:column; align-items:center; gap:8px; } .minrow .u span{ font-family:'Space Grotesk'; font-size:.66rem; color:var(--muted); }
+
+  /* dos donts */
+  .dd{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; } @media (max-width:820px){ .dd{ grid-template-columns:1fr 1fr; } }
+  .ddx{ border:1px solid var(--line); border-radius:14px; background:var(--paper); overflow:hidden; }
+  .ddx .vis{ height:108px; display:grid; place-items:center; color:var(--ink); --acc:var(--lime); background:var(--canvas); }
+  .ddx .t{ padding:12px 14px; display:flex; align-items:center; gap:8px; font-size:.82rem; font-weight:600; }
+  .ddx .t .m{ width:20px; height:20px; border-radius:50%; display:grid; place-items:center; color:#fff; flex:none; }
+  .ddx.ok .t .m{ background:var(--ok); } .ddx.no .t .m{ background:var(--danger); }
+
+  .note{ margin-top:clamp(30px,4vw,52px); background:var(--ink); color:var(--on-ink); border-radius:18px; padding:clamp(26px,3vw,40px); }
+  .note h3{ font-family:'Space Grotesk'; color:#fff; font-size:1.3rem; } .note p{ color:var(--on-ink-mute); margin-top:8px; max-width:600px; }
+  .note .acts{ display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
+</style>
+</head>
+<body>
+
+<!-- SYMBOL: Rumah Web (refined) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="rw" viewBox="0 0 64 64">
+    <path fill="currentColor" d="M32 6.5 58.5 28 52.5 28 52.5 52.5a3 3 0 0 1-3 3L14.5 55.5a3 3 0 0 1-3-3L11.5 28 5.5 28Z"/>
+    <rect style="fill:var(--acc,#c8f250)" x="17.5" y="32.5" width="29" height="17.5" rx="2.6"/>
+    <circle cx="22" cy="37" r="1.3" fill="currentColor"/>
+    <circle cx="26.4" cy="37" r="1.3" fill="currentColor"/>
+    <circle cx="30.8" cy="37" r="1.3" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<div class="page wrap">
+
+  <header class="lh">
+    <span class="pill">● Logo Final · Konsep 01</span>
+    <h1>Rumah Web — <span style="color:var(--lime-deep)">bikinwebsekolah</span>.com</h1>
+    <p>Atap sekolah menaungi jendela website. Mark sudah dirapikan: proporsi rumah lebih seimbang &amp; tiga titik browser tipis di layar untuk memperkuat kesan "web". Berikut paket pemakaiannya.</p>
+  </header>
+
+  <!-- PRIMARY -->
+  <section class="sec">
+    <div class="st"><span class="no">/ 01</span><h2>Lockup Utama</h2><span class="ln"></span></div>
+    <div class="hero-lock">
+      <svg class="mk xl"><use href="#rw"/></svg>
+      <span class="wm">bikinweb<b>sekolah</b><i>.com</i></span>
+    </div>
+  </section>
+
+  <!-- LOCKUPS -->
+  <section class="sec">
+    <div class="st"><span class="no">/ 02</span><h2>Varian Lockup</h2><span class="ln"></span></div>
+    <div class="lg-grid">
+      <div class="cell"><span class="lbl">Horizontal</span>
+        <span class="lockH"><svg class="mk lg"><use href="#rw"/></svg><span class="wm" style="font-size:1.7rem">bikinweb<b>sekolah</b><i>.com</i></span></span>
+      </div>
+      <div class="cell stack"><span class="lbl">Vertikal</span>
+        <svg class="mk lg"><use href="#rw"/></svg>
+        <span class="wm" style="font-size:1.25rem">bikinweb<b>sekolah</b><i>.com</i></span>
+      </div>
+      <div class="cell"><span class="lbl">Ikon (mark)</span>
+        <svg class="mk lg" style="width:80px;height:80px"><use href="#rw"/></svg>
+      </div>
+      <div class="cell"><span class="lbl">Tanpa domain</span>
+        <span class="lockH"><svg class="mk md"><use href="#rw"/></svg><span class="wm" style="font-size:1.5rem">bikinweb<b>sekolah</b></span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- BACKGROUNDS -->
+  <section class="sec">
+    <div class="st"><span class="no">/ 03</span><h2>Di Berbagai Latar</h2><span class="ln"></span></div>
+    <div class="row4">
+      <div class="bx cream"><svg class="mk lg"><use href="#rw"/></svg><span class="cap">Cream</span></div>
+      <div class="bx paper"><svg class="mk lg"><use href="#rw"/></svg><span class="cap">Putih</span></div>
+      <div class="bx ink"><svg class="mk lg"><use href="#rw"/></svg><span class="cap">Ink / Gelap</span></div>
+      <div class="bx photo"><svg class="mk lg"><use href="#rw"/></svg><span class="cap">Di atas foto</span></div>
+    </div>
+  </section>
+
+  <!-- COLOR VARIANTS -->
+  <section class="sec">
+    <div class="st"><span class="no">/ 04</span><h2>Varian Warna Aksen</h2><span class="ln"></span></div>
+    <div class="row4">
+      <div class="bx acc-lime"><svg class="mk lg"><use href="#rw"/></svg><span class="cap" style="color:var(--muted)">Lime (utama)</span></div>
+      <div class="bx acc-cobalt"><svg class="mk lg"><use href="#rw"/></svg><span class="cap" style="color:var(--muted)">Cobalt</span></div>
+      <div class="bx acc-coral"><svg class="mk lg"><use href="#rw"/></svg><span class="cap" style="color:var(--muted)">Coral</span></div>
+      <div class="bx acc-ink"><svg class="mk lg"><use href="#rw"/></svg><span class="cap" style="color:var(--muted)">Mono (1 warna)</span></div>
+    </div>
+  </section>
+
+  <!-- FAVICON -->
+  <section class="sec">
+    <div class="st"><span class="no">/ 05</span><h2>Favicon &amp; App Icon</h2><span class="ln"></span></div>
+    <div class="panel">
+      <p>Ikon tetap terbaca sampai 16px. Versi app icon: ink + lime (utama) atau lime + ink (alternatif terang).</p>
+      <div class="favs">
+        <div class="favitem"><span class="chip c1"><svg class="mk"><use href="#rw"/></svg></span><span>64 px</span></div>
+        <div class="favitem"><span class="chip c2"><svg class="mk"><use href="#rw"/></svg></span><span>48 px</span></div>
+        <div class="favitem"><span class="chip c3"><svg class="mk"><use href="#rw"/></svg></span><span>32 px</span></div>
+        <div class="favitem"><span class="chip c4"><svg class="mk"><use href="#rw"/></svg></span><span>16 px</span></div>
+        <div class="favitem lime"><span class="chip c1"><svg class="mk"><use href="#rw"/></svg></span><span>Alternatif</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLEARSPACE + MINSIZE -->
+  <section class="sec">
+    <div class="st"><span class="no">/ 06</span><h2>Ruang Aman &amp; Ukuran Minimum</h2><span class="ln"></span></div>
+    <div class="two">
+      <div class="panel">
+        <h3>Ruang Aman (clear space)</h3>
+        <p>Beri jarak kosong minimal ½ tinggi ikon di setiap sisi lockup.</p>
+        <div class="clearbox"><span class="inner"><span class="lockH" style="display:inline-flex;align-items:center;gap:14px"><svg class="mk md"><use href="#rw"/></svg><span class="wm" style="font-size:1.3rem">bikinweb<b>sekolah</b><i>.com</i></span></span></span></div>
+      </div>
+      <div class="panel">
+        <h3>Ukuran Minimum</h3>
+        <p>Ikon jangan dipakai di bawah 16px; lockup penuh minimal lebar 120px.</p>
+        <div class="minrow">
+          <div class="u"><svg class="mk" style="width:48px;height:48px"><use href="#rw"/></svg><span>48px ✓</span></div>
+          <div class="u"><svg class="mk" style="width:32px;height:32px"><use href="#rw"/></svg><span>32px ✓</span></div>
+          <div class="u"><svg class="mk" style="width:24px;height:24px"><use href="#rw"/></svg><span>24px ✓</span></div>
+          <div class="u"><svg class="mk" style="width:16px;height:16px"><use href="#rw"/></svg><span>16px ✓</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOs & DON'Ts -->
+  <section class="sec">
+    <div class="st"><span class="no">/ 07</span><h2>Yang Boleh &amp; Tidak</h2><span class="ln"></span></div>
+    <div class="dd">
+      <div class="ddx ok"><div class="vis"><svg class="mk lg"><use href="#rw"/></svg></div><div class="t"><span class="m"><svg viewBox="0 0 24 24" width="12" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Warna sesuai palet</div></div>
+      <div class="ddx ok"><div class="vis ink" style="background:var(--ink); color:#f3f1ea; --acc:var(--lime)"><svg class="mk lg"><use href="#rw"/></svg></div><div class="t"><span class="m"><svg viewBox="0 0 24 24" width="12" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Inverse di latar gelap</div></div>
+      <div class="ddx no"><div class="vis" style="--acc:#e23ad0"><svg class="mk lg" style="transform:rotate(-12deg)"><use href="#rw"/></svg></div><div class="t"><span class="m"><svg viewBox="0 0 24 24" width="12" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>Jangan miringkan / ganti warna asal</div></div>
+      <div class="ddx no"><div class="vis"><svg class="mk" style="width:90px;height:54px"><use href="#rw"/></svg></div><div class="t"><span class="m"><svg viewBox="0 0 24 24" width="12" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>Jangan menggepengkan</div></div>
+    </div>
+  </section>
+
+  <!-- NOTE -->
+  <div class="note">
+    <h3>Logo siap dipakai ✦</h3>
+    <p>Mau saya terapkan ke website (nav, footer, favicon semua halaman) dan rapikan jadi file siap unduh? Atau eksplor 1–2 alternatif bentuk atap/jendela dulu sebelum dikunci?</p>
+    <div class="acts">
+      <span class="btn btn-primary">Terapkan ke website</span>
+      <span class="btn btn-ghost">Eksplor alternatif dulu</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

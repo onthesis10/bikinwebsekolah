@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PPDB Online 2026/2027 — SMK Bina Teknologi</title>
+<link rel="stylesheet" href="assets/base.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  /* ====== PALETTE — Maroon × Graphite (futuristic) ====== */
+  :root{
+    --canvas:#f1ede6; --canvas-2:#e6e0d6; --paper:#fbf8f3; --paper-2:#f4f0e8;
+    --ink:#1a1411; --ink-2:#473f3a; --muted:#7f766d;
+    --line:#dbd3c7; --line-2:#e7e1d6;
+    --graphite:#16100e; --graphite-2:#1f1714;
+    --maroon:#7d2233; --maroon-deep:#5c1624; --maroon-50:#f1e1e3;
+    --amber:#dca03f; --amber-deep:#c0832a;
+    --accent:#7d2233; --accent-deep:#5c1624; --accent-ink:#fff;
+    --on-ink:#f1ede6; --on-ink-mute:#a99f95; --on-ink-line:rgba(241,237,230,.13);
+  }
+  body{ background:var(--canvas); }
+  .display,h1,h2,h3,h4{ font-family:'Sora',sans-serif; font-weight:700; letter-spacing:-.03em; }
+  .mono{ font-family:'Space Mono',monospace; }
+  .kick{ font-family:'Space Mono',monospace; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--maroon); }
+  .btn{ border-radius:6px; font-family:'Sora'; }
+  .btn-primary{ background:var(--maroon); color:#fff; } .btn-primary:hover{ background:var(--maroon-deep); }
+  .btn-amber{ background:var(--amber); color:#2a1c05; } .btn-amber:hover{ background:var(--amber-deep); color:#fff; }
+
+  /* ====== NAV ====== */
+  .nav{ position:sticky; top:0; z-index:60; background:color-mix(in srgb,var(--canvas) 86%, transparent); backdrop-filter:blur(12px); border-bottom:1px solid transparent; transition:.3s; }
+  .nav.scrolled{ border-color:var(--line); }
+  .nav .row{ display:flex; align-items:center; gap:22px; height:70px; }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand .mk{ width:40px; height:40px; border-radius:9px; background:var(--maroon); color:#fff; display:grid; place-items:center; flex:none; position:relative; } .brand .mk svg{ width:21px; height:21px; }
+  .brand .mk::after{ content:""; position:absolute; inset:0; border-radius:9px; box-shadow:0 0 18px -2px var(--maroon); opacity:.5; }
+  .brand .wm{ font-family:'Sora'; font-weight:700; font-size:1.08rem; letter-spacing:-.02em; line-height:1; }
+  .brand .wm small{ display:block; font-family:'Space Mono'; font-size:.58rem; font-weight:400; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; margin-top:4px; }
+  .navlinks{ display:flex; gap:2px; margin-left:auto; }
+  .navlinks a{ padding:9px 12px; font-family:'Sora'; font-weight:500; font-size:.88rem; color:var(--ink-2); border-radius:6px; white-space:nowrap; }
+  .navlinks a:hover{ background:var(--canvas-2); color:var(--ink); }
+  .menu-btn{ margin-left:auto; display:none; width:44px; height:44px; border:1px solid var(--line); border-radius:9px; background:var(--paper); align-items:center; justify-content:center; }
+  .menu-btn span,.menu-btn span::before,.menu-btn span::after{ content:""; display:block; width:18px; height:2px; background:var(--ink); position:relative; }
+  .menu-btn span::before{ position:absolute; top:-6px; } .menu-btn span::after{ position:absolute; top:6px; }
+  @media (max-width:1000px){ .navlinks,.nav .cta{ display:none; } .menu-btn{ display:flex; } }
+  .mobnav{ display:none; } .mobnav.open{ display:grid; grid-template-columns:1fr 1fr; gap:4px; position:fixed; inset:70px 0 auto 0; z-index:55; background:var(--paper); border-bottom:1px solid var(--line); padding:14px clamp(20px,4vw,48px); }
+  .mobnav a{ padding:13px 10px; font-family:'Sora'; font-weight:500; color:var(--ink-2); border-bottom:1px solid var(--line-2); }
+
+  /* ====== HERO — terminal/control panel ====== */
+  .hero{ padding-top:clamp(16px,2vw,28px); padding-bottom:clamp(34px,4vw,56px); }
+  .hero-panel{ position:relative; overflow:hidden; border-radius:18px; background:var(--graphite); color:var(--on-ink); padding:clamp(28px,4vw,56px); isolation:isolate; }
+  .hero-panel::before{ content:""; position:absolute; inset:0; z-index:0; opacity:.5; background-image:linear-gradient(var(--on-ink-line) 1px,transparent 1px),linear-gradient(90deg,var(--on-ink-line) 1px,transparent 1px); background-size:46px 46px; -webkit-mask:radial-gradient(120% 100% at 0% 0%,#000,transparent 70%); mask:radial-gradient(120% 100% at 0% 0%,#000,transparent 70%); }
+  .hero-panel::after{ content:""; position:absolute; right:-12%; top:-30%; width:62%; height:130%; z-index:0; background:radial-gradient(circle, color-mix(in srgb,var(--maroon) 55%, transparent), transparent 60%); pointer-events:none; }
+  .hero-grid{ position:relative; z-index:1; display:grid; grid-template-columns:1.25fr .9fr; gap:clamp(28px,4vw,52px); align-items:center; }
+  @media (max-width:920px){ .hero-grid{ grid-template-columns:1fr; } }
+  .hero .coord{ display:flex; align-items:center; gap:10px; }
+  .hero .coord .d{ width:8px; height:8px; border-radius:50%; background:var(--amber); box-shadow:0 0 12px 1px var(--amber); }
+  .hero .coord .kick{ color:var(--amber); }
+  .hero h1{ color:#fff; font-size:clamp(2.5rem,6vw,4.7rem); line-height:1.0; margin-top:20px; }
+  .hero h1 .hl{ color:var(--amber); }
+  .hero .sub{ color:var(--on-ink-mute); max-width:440px; margin-top:20px; font-size:1.1rem; }
+  .hero .cta-row{ display:flex; gap:12px; flex-wrap:wrap; margin-top:30px; }
+  .btn-onp{ background:rgba(241,237,230,.1); color:#fff; border:1.5px solid var(--on-ink-line); } .btn-onp:hover{ background:rgba(241,237,230,.18); }
+
+  /* glass status panel */
+  .glass{ position:relative; border-radius:14px; background:rgba(241,237,230,.07); backdrop-filter:blur(14px); border:1px solid var(--on-ink-line); padding:24px; box-shadow:0 30px 60px -30px #000, inset 0 1px 0 rgba(255,255,255,.06); }
+  .glass .gh{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+  .glass .gh b{ font-family:'Sora'; font-weight:600; color:#fff; font-size:1rem; }
+  .gel{ display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--on-ink-line); }
+  .gel:last-of-type{ border:0; }
+  .gel .gi b{ font-family:'Sora'; font-size:.92rem; color:#fff; display:block; } .gel .gi span{ font-family:'Space Mono'; font-size:.66rem; color:var(--on-ink-mute); }
+  .st-dot{ font-family:'Space Mono'; font-size:.62rem; letter-spacing:.06em; text-transform:uppercase; padding:4px 9px; border-radius:5px; }
+  .st-open{ background:rgba(220,160,63,.16); color:var(--amber); } .st-soon{ background:rgba(241,237,230,.1); color:var(--on-ink-mute); }
+  .countdown{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:18px; }
+  .cd{ background:rgba(0,0,0,.25); border:1px solid var(--on-ink-line); border-radius:8px; padding:12px 0; text-align:center; }
+  .cd b{ font-family:'Space Mono'; font-weight:700; font-size:1.5rem; color:#fff; display:block; line-height:1; } .cd span{ font-family:'Space Mono'; font-size:.56rem; letter-spacing:.08em; text-transform:uppercase; color:var(--on-ink-mute); }
+  .kuota{ margin-top:18px; }
+  .kuota .kt{ display:flex; justify-content:space-between; font-family:'Space Mono'; font-size:.7rem; color:var(--on-ink-mute); margin-bottom:7px; }
+  .ktrack{ height:7px; border-radius:99px; background:rgba(0,0,0,.3); overflow:hidden; } .kfill{ height:100%; width:78%; border-radius:99px; background:linear-gradient(90deg,var(--maroon),var(--amber)); box-shadow:0 0 12px -1px var(--amber); }
+
+  /* ====== SECTION HEAD ====== */
+  .secnum{ display:flex; align-items:baseline; gap:14px; margin-bottom:clamp(26px,3.5vw,44px); padding-bottom:16px; border-bottom:1px solid var(--line); }
+  .secnum .no{ font-family:'Space Mono'; font-size:.8rem; color:var(--maroon); letter-spacing:.06em; }
+  .secnum h2{ font-size:clamp(1.7rem,3vw,2.5rem); }
+  .secnum .meta{ margin-left:auto; font-family:'Space Mono'; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); align-self:center; }
+  .secnum.center{ flex-direction:column; align-items:center; text-align:center; gap:8px; } .secnum.center .meta{ margin:0; }
+
+  /* JALUR */
+  .jalur{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media (max-width:860px){ .jalur{ grid-template-columns:1fr; } }
+  .jcard{ background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:28px; transition:transform .2s, box-shadow .25s, border-color .2s; position:relative; overflow:hidden; }
+  .jcard:hover{ transform:translateY(-5px); box-shadow:0 30px 60px -34px rgba(26,20,17,.5); border-color:var(--maroon); }
+  .jcard .ic{ width:50px; height:50px; border-radius:12px; background:var(--maroon-50); color:var(--maroon); display:grid; place-items:center; margin-bottom:16px; } .jcard .ic svg{ width:25px; height:25px; }
+  .jcard h3{ font-size:1.3rem; } .jcard p{ font-size:.92rem; color:var(--ink-2); margin-top:8px; }
+  .jcard ul{ list-style:none; padding:0; margin:16px 0 0; display:flex; flex-direction:column; gap:9px; }
+  .jcard li{ display:flex; gap:9px; font-size:.86rem; color:var(--ink-2); } .jcard li svg{ width:16px; height:16px; color:var(--maroon); flex:none; margin-top:3px; }
+  .jcard .jn{ position:absolute; top:22px; right:24px; font-family:'Space Mono'; font-size:.78rem; color:var(--line); }
+
+  /* ALUR */
+  .steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  @media (max-width:880px){ .steps{ grid-template-columns:1fr 1fr; } }
+  .step{ background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:26px 22px; position:relative; }
+  .step .num{ font-family:'Space Mono'; font-weight:700; font-size:1.7rem; color:var(--maroon); }
+  .step h3{ font-size:1.05rem; margin-top:10px; } .step p{ font-size:.86rem; color:var(--ink-2); margin-top:6px; }
+  .step::after{ content:""; position:absolute; top:36px; right:-7px; width:14px; height:14px; border-top:1.5px solid var(--line); border-right:1.5px solid var(--line); transform:rotate(45deg); z-index:1; }
+  @media (max-width:880px){ .step::after{ display:none; } }
+  .step:last-child::after{ display:none; }
+
+  /* JADWAL timeline */
+  .timeline{ position:relative; max-width:780px; margin-inline:auto; padding-left:34px; }
+  .timeline::before{ content:""; position:absolute; left:9px; top:6px; bottom:6px; width:1.5px; background:var(--line); }
+  .tl{ position:relative; padding:0 0 26px 16px; } .tl:last-child{ padding-bottom:0; }
+  .tl::before{ content:""; position:absolute; left:-30px; top:4px; width:16px; height:16px; border-radius:50%; background:var(--paper); border:2px solid var(--maroon); }
+  .tl.done::before{ background:var(--maroon); box-shadow:0 0 10px -1px var(--maroon); }
+  .tl .date{ font-family:'Space Mono'; font-size:.74rem; color:var(--maroon); } .tl b{ font-family:'Sora'; font-size:1.05rem; display:block; margin-top:2px; } .tl p{ font-size:.88rem; color:var(--muted); margin-top:2px; }
+
+  /* BIAYA */
+  .tiers{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media (max-width:860px){ .tiers{ grid-template-columns:1fr; max-width:420px; margin-inline:auto; } }
+  .tier{ background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:28px; position:relative; display:flex; flex-direction:column; }
+  .tier.hot{ background:var(--graphite); color:var(--on-ink); border-color:var(--graphite); }
+  .tier.hot *{ color:var(--on-ink); } .tier.hot .gname{ color:var(--amber); } .tier.hot .amt b{ color:#fff; } .tier.hot li svg{ color:var(--amber); }
+  .tier .gname{ font-family:'Space Mono'; font-size:.74rem; letter-spacing:.08em; text-transform:uppercase; color:var(--maroon); }
+  .tier .amt{ display:flex; align-items:baseline; gap:5px; margin:12px 0 4px; } .tier .amt b{ font-family:'Sora'; font-size:2rem; font-weight:700; letter-spacing:-.03em; }
+  .tier .period{ font-family:'Space Mono'; font-size:.72rem; color:var(--muted); } .tier.hot .period{ color:var(--on-ink-mute); }
+  .tier ul{ list-style:none; padding:0; margin:18px 0 0; display:flex; flex-direction:column; gap:10px; }
+  .tier li{ display:flex; gap:9px; font-size:.9rem; color:var(--ink-2); } .tier li svg{ width:16px; height:16px; color:var(--maroon); flex:none; margin-top:3px; }
+  .tier .hotbadge{ position:absolute; top:18px; right:18px; font-family:'Space Mono'; font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; background:var(--amber); color:#2a1c05; padding:4px 9px; border-radius:5px; }
+
+  /* SYARAT */
+  .syarat{ display:grid; grid-template-columns:1fr 1fr; gap:0 clamp(28px,4vw,56px); }
+  @media (max-width:680px){ .syarat{ grid-template-columns:1fr; } }
+  .syarat .s{ display:flex; gap:14px; align-items:center; padding:17px 0; border-bottom:1px solid var(--line); }
+  .syarat .s .ck{ width:30px; height:30px; flex:none; border-radius:7px; background:var(--maroon-50); color:var(--maroon); display:grid; place-items:center; } .syarat .s .ck svg{ width:16px; height:16px; }
+  .syarat .s b{ font-family:'Sora'; font-weight:600; font-size:.98rem; flex:1; } .syarat .s span{ font-family:'Space Mono'; font-size:.64rem; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+
+  /* FORM */
+  .form-wrap{ display:grid; grid-template-columns:1fr 300px; gap:24px; align-items:start; }
+  @media (max-width:900px){ .form-wrap{ grid-template-columns:1fr; } }
+  .form-card{ background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:clamp(24px,3vw,36px); }
+  .fsec{ margin-bottom:28px; } .fsec:last-child{ margin-bottom:0; }
+  .fsec .sh{ display:flex; align-items:center; gap:11px; margin-bottom:18px; }
+  .fsec .sh .n{ font-family:'Space Mono'; font-weight:700; color:var(--maroon); font-size:.9rem; }
+  .fsec .sh h3{ font-size:1.1rem; }
+  .frow{ display:grid; grid-template-columns:1fr 1fr; gap:16px; } @media (max-width:540px){ .frow{ grid-template-columns:1fr; } }
+  .frow.full{ grid-template-columns:1fr; }
+  .input,.select,.textarea{ border-radius:7px; }
+  .upload{ border:1.5px dashed var(--line); border-radius:9px; padding:20px; text-align:center; cursor:pointer; transition:.18s; }
+  .upload:hover{ border-color:var(--maroon); background:var(--maroon-50); }
+  .upload svg{ width:26px; height:26px; margin:0 auto 8px; color:var(--maroon); }
+  .upload b{ display:block; font-family:'Sora'; font-size:.9rem; } .upload span{ font-family:'Space Mono'; font-size:.66rem; color:var(--muted); }
+  .aside{ background:var(--graphite); color:var(--on-ink); border-radius:14px; padding:24px; position:sticky; top:90px; }
+  .aside h4{ font-family:'Sora'; color:#fff; font-size:1rem; margin-bottom:16px; }
+  .smini{ display:flex; gap:12px; padding:11px 0; border-bottom:1px solid var(--on-ink-line); } .smini:last-of-type{ border:0; }
+  .smini .d{ font-family:'Space Mono'; color:var(--amber); flex:none; } .smini b{ font-family:'Sora'; font-size:.9rem; color:#fff; display:block; } .smini span{ font-family:'Space Mono'; font-size:.64rem; color:var(--on-ink-mute); }
+  .agree{ display:flex; gap:10px; align-items:flex-start; margin-top:6px; font-size:.86rem; color:var(--ink-2); }
+
+  /* SUCCESS */
+  .success{ position:fixed; inset:0; z-index:120; display:none; align-items:center; justify-content:center; padding:24px; }
+  .success.open{ display:flex; }
+  .success-bg{ position:fixed; inset:0; background:rgba(22,16,14,.7); backdrop-filter:blur(5px); }
+  .success-card{ position:relative; z-index:1; background:var(--paper); border-radius:16px; box-shadow:var(--shadow-lg); max-width:460px; width:100%; padding:36px; text-align:center; animation:pop .3s ease; }
+  @keyframes pop{ from{ transform:scale(.94); opacity:0; } }
+  .success-ic{ width:78px; height:78px; border-radius:50%; background:var(--maroon-50); color:var(--maroon); display:grid; place-items:center; margin:0 auto 20px; } .success-ic svg{ width:38px; height:38px; }
+  .regno{ margin:18px 0; padding:16px; background:var(--graphite); border-radius:10px; }
+  .regno span{ font-family:'Space Mono'; font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; color:var(--on-ink-mute); } .regno b{ display:block; font-family:'Space Mono'; font-weight:700; font-size:1.5rem; color:var(--amber); letter-spacing:.06em; margin-top:4px; }
+
+  /* CEK STATUS */
+  .status-box{ max-width:580px; margin-inline:auto; }
+  .status-in{ display:flex; gap:10px; margin-top:18px; } @media (max-width:480px){ .status-in{ flex-direction:column; } }
+  .status-res{ margin-top:20px; display:none; } .status-res.show{ display:block; animation:pop .3s ease; }
+  .status-card{ background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:26px; }
+  .status-head{ display:flex; align-items:center; gap:16px; padding-bottom:18px; border-bottom:1px solid var(--line); margin-bottom:18px; }
+  .status-head .av{ width:52px; height:52px; border-radius:12px; background:var(--maroon-50); color:var(--maroon); display:grid; place-items:center; flex:none; font-family:'Space Mono'; font-weight:700; }
+  .sgrid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; } .sgrid .it span{ font-family:'Space Mono'; font-size:.62rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); } .sgrid .it b{ font-family:'Sora'; font-size:.95rem; }
+  .ptrack{ height:7px; background:var(--canvas-2); border-radius:99px; overflow:hidden; margin-top:6px; } .pfill{ height:100%; width:80%; background:linear-gradient(90deg,var(--maroon),var(--amber)); border-radius:99px; }
+
+  /* FAQ */
+  .faq{ max-width:800px; margin-inline:auto; border-top:1px solid var(--ink); }
+  .faq-item{ border-bottom:1px solid var(--line); }
+  .faq-q{ width:100%; text-align:left; background:none; border:0; padding:21px 4px; display:flex; align-items:center; justify-content:space-between; gap:14px; font-family:'Sora'; font-weight:600; font-size:1.04rem; color:var(--ink); }
+  .faq-q .pm{ font-family:'Space Mono'; font-size:1.2rem; color:var(--maroon); flex:none; transition:.2s; } .faq-item.open .pm{ transform:rotate(45deg); }
+  .faq-a{ max-height:0; overflow:hidden; transition:max-height .3s ease; } .faq-item.open .faq-a{ max-height:240px; } .faq-a p{ padding:0 4px 21px; color:var(--ink-2); font-size:.94rem; }
+
+  /* FOOTER */
+  .foot{ background:var(--graphite); color:var(--on-ink-mute); padding-block:clamp(46px,6vw,70px) 26px; margin-top:clamp(40px,5vw,68px); }
+  .foot .grid-f{ display:grid; grid-template-columns:1.7fr 1fr 1.3fr; gap:32px; } @media (max-width:720px){ .foot .grid-f{ grid-template-columns:1fr; } }
+  .foot .mk{ background:var(--maroon); color:#fff; } .foot .wm{ color:#fff; }
+  .foot h4{ font-family:'Space Mono'; color:#fff; font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:15px; font-weight:400; }
+  .foot a,.foot p{ color:var(--on-ink-mute); font-size:.92rem; } .foot a{ display:block; padding:5px 0; } .foot a:hover{ color:#fff; }
+  .foot .copy{ grid-column:1/-1; border-top:1px solid var(--on-ink-line); margin-top:24px; padding-top:22px; font-family:'Space Mono'; font-size:.72rem; color:var(--on-ink-mute); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+  .backhub{ position:fixed; left:16px; bottom:16px; z-index:70; box-shadow:var(--shadow); }
+  .dashlink{ position:fixed; right:16px; bottom:16px; z-index:70; box-shadow:var(--shadow); }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="btn btn-soft btn-sm backhub">← Katalog</a>
+<a href="Template 3 - Dashboard Panitia PPDB.html" class="btn btn-primary btn-sm dashlink">Dashboard Panitia →</a>
+
+<!-- NAV -->
+<nav class="nav" data-nav>
+  <div class="wrap">
+    <div class="row">
+      <a class="brand" href="#top">
+        <span class="mk"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 2 8l10 5 8-4v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 11.5V16c0 1.1 2.7 2.5 6 2.5s6-1.4 6-2.5v-4.5" stroke="currentColor" stroke-width="2"/></svg></span>
+        <span class="wm">SMK Bina Teknologi<small>PPDB Online 2026/2027</small></span>
+      </a>
+      <div class="navlinks">
+        <a href="#jalur">Jalur</a><a href="#alur">Alur</a><a href="#jadwal">Jadwal</a><a href="#biaya">Biaya</a><a href="#syarat">Syarat</a><a href="#status">Cek Status</a><a href="#faq">FAQ</a>
+      </div>
+      <a href="#daftar" class="btn btn-amber btn-sm cta">Daftar Sekarang</a>
+      <button class="menu-btn" data-menu-btn="#mobnav" aria-label="Menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="mobnav" id="mobnav">
+  <a href="#jalur">Jalur</a><a href="#alur">Alur</a><a href="#jadwal">Jadwal</a><a href="#biaya">Biaya</a><a href="#syarat">Syarat</a><a href="#status">Cek Status</a><a href="#faq">FAQ</a><a href="#daftar">Daftar</a>
+</div>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-panel">
+      <div class="hero-grid">
+        <div>
+          <div class="coord"><span class="d"></span><span class="kick">PPDB Online · 2026/2027</span></div>
+          <h1>Masa depanmu<br/>dimulai dari <span class="hl">sini.</span></h1>
+          <p class="sub">Daftar online dalam 10 menit. Pilih jurusan, unggah berkas, dan pantau status pendaftaran langsung dari rumah.</p>
+          <div class="cta-row">
+            <a href="#daftar" class="btn btn-amber btn-lg">Daftar Sekarang
+              <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="#status" class="btn btn-onp btn-lg">Cek Status</a>
+          </div>
+        </div>
+        <div class="glass">
+          <div class="gh"><b>Status Pendaftaran</b><span class="kick" style="color:var(--amber)">LIVE</span></div>
+          <div class="gel"><div class="gi"><b>Gelombang 1</b><span>01 APR – 31 MEI 2026</span></div><span class="st-dot st-open">Dibuka</span></div>
+          <div class="gel"><div class="gi"><b>Gelombang 2</b><span>01 JUN – 15 JUL 2026</span></div><span class="st-dot st-soon">Segera</span></div>
+          <div class="gel"><div class="gi"><b>Gelombang 3</b><span>16 JUL – 05 AGU 2026</span></div><span class="st-dot st-soon">Terkunci</span></div>
+          <div class="countdown">
+            <div class="cd"><b>32</b><span>Hari</span></div><div class="cd"><b>14</b><span>Jam</span></div><div class="cd"><b>08</b><span>Mnt</span></div><div class="cd"><b>21</b><span>Dtk</span></div>
+          </div>
+          <div class="kuota">
+            <div class="kt"><span>KUOTA TERISI</span><span>428 / 548</span></div>
+            <div class="ktrack"><div class="kfill"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- JALUR -->
+<section class="section" id="jalur" style="padding-top:clamp(20px,3vw,40px)">
+  <div class="wrap">
+    <div class="secnum"><span class="no">// 01</span><h2>Jalur Penerimaan</h2><span class="meta">Pilih yang sesuai</span></div>
+    <div class="jalur">
+      <article class="jcard reveal"><span class="jn">J1</span><div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="m12 2 2.4 5 5.6.8-4 4 1 5.6L12 19l-5 2.4 1-5.6-4-4 5.6-.8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div><h3>Jalur Prestasi</h3><p>Untuk siswa dengan prestasi akademik atau non-akademik unggulan.</p><ul><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Sertifikat juara min. kab/kota</li><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Bebas biaya pendaftaran</li></ul></article>
+      <article class="jcard reveal"><span class="jn">J2</span><div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M5 21V9l7-5 7 5v12" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div><h3>Jalur Reguler</h3><p>Jalur umum berdasarkan nilai rapor dan hasil tes seleksi.</p><ul><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Nilai rapor 5 semester</li><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Tes potensi akademik</li></ul></article>
+      <article class="jcard reveal"><span class="jn">J3</span><div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div><h3>Jalur Afirmasi</h3><p>Untuk keluarga kurang mampu dengan dokumen pendukung.</p><ul><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>KIP / KKS / SKTM</li><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Subsidi biaya pendidikan</li></ul></article>
+    </div>
+  </div>
+</section>
+
+<!-- ALUR -->
+<section class="section" id="alur" style="padding-top:0">
+  <div class="wrap">
+    <div class="secnum"><span class="no">// 02</span><h2>Alur Pendaftaran</h2><span class="meta">4 Langkah</span></div>
+    <div class="steps">
+      <div class="step reveal"><div class="num">01</div><h3>Isi Formulir</h3><p>Lengkapi data diri dan pilih jurusan secara online.</p></div>
+      <div class="step reveal"><div class="num">02</div><h3>Unggah Berkas</h3><p>Upload dokumen persyaratan format PDF/JPG.</p></div>
+      <div class="step reveal"><div class="num">03</div><h3>Verifikasi</h3><p>Panitia memeriksa kelengkapan data pendaftar.</p></div>
+      <div class="step reveal"><div class="num">04</div><h3>Pengumuman</h3><p>Cek hasil seleksi melalui menu Cek Status.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- JADWAL -->
+<section class="section" id="jadwal" style="padding-top:0">
+  <div class="wrap">
+    <div class="secnum center"><span class="no">// 03</span><h2>Jadwal PPDB 2026/2027</h2></div>
+    <div class="timeline reveal">
+      <div class="tl done"><span class="date">01 APR 2026</span><b>Pendaftaran Gelombang 1 Dibuka</b><p>Pengisian formulir &amp; unggah berkas online.</p></div>
+      <div class="tl done"><span class="date">01 – 15 MEI 2026</span><b>Verifikasi Berkas</b><p>Pemeriksaan kelengkapan oleh panitia.</p></div>
+      <div class="tl"><span class="date">20 MEI 2026</span><b>Tes Seleksi &amp; Wawancara</b><p>Tes potensi akademik dan wawancara orang tua.</p></div>
+      <div class="tl"><span class="date">28 MEI 2026</span><b>Pengumuman Kelulusan</b><p>Hasil seleksi diumumkan via Cek Status.</p></div>
+      <div class="tl"><span class="date">01 – 10 JUN 2026</span><b>Daftar Ulang</b><p>Konfirmasi &amp; pembayaran biaya masuk.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BIAYA -->
+<section class="section" id="biaya" style="padding-top:0">
+  <div class="wrap">
+    <div class="secnum"><span class="no">// 04</span><h2>Biaya Pendaftaran</h2><span class="meta">Per Gelombang</span></div>
+    <div class="tiers">
+      <div class="tier reveal"><span class="gname">Gelombang 1</span><div class="amt"><b>Rp 150rb</b></div><span class="period">01 APR – 31 MEI 2026</span><ul><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Biaya formulir termurah</li><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Prioritas kuota jurusan</li><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Gratis kaos PPDB</li></ul></div>
+      <div class="tier hot reveal"><span class="hotbadge">Aktif</span><span class="gname">Gelombang 2</span><div class="amt"><b>Rp 200rb</b></div><span class="period">01 JUN – 15 JUL 2026</span><ul><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kuota reguler</li><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Seleksi tes &amp; wawancara</li><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Bimbingan jurusan</li></ul></div>
+      <div class="tier reveal"><span class="gname">Gelombang 3</span><div class="amt"><b>Rp 250rb</b></div><span class="period">16 JUL – 05 AGU 2026</span><ul><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Kuota sisa jurusan</li><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Seleksi langsung</li><li><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Pengumuman cepat</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- SYARAT -->
+<section class="section" id="syarat" style="padding-top:0">
+  <div class="wrap">
+    <div class="secnum"><span class="no">// 05</span><h2>Syarat Pendaftaran</h2><span class="meta">Dokumen</span></div>
+    <div class="syarat reveal">
+      <div class="s"><span class="ck"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Scan Akta Kelahiran</b><span>PDF · 2MB</span></div>
+      <div class="s"><span class="ck"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Kartu Keluarga (KK)</b><span>PDF · 2MB</span></div>
+      <div class="s"><span class="ck"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Ijazah / SKL</b><span>SKL Sementara</span></div>
+      <div class="s"><span class="ck"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Rapor 5 Semester</b><span>Dilegalisir</span></div>
+      <div class="s"><span class="ck"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Pas Foto 3×4</b><span>Latar merah</span></div>
+      <div class="s"><span class="ck"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Sertifikat Prestasi</b><span>Opsional</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="section" id="daftar" style="padding-top:0">
+  <div class="wrap">
+    <div class="secnum"><span class="no">// 06</span><h2>Formulir Pendaftaran</h2><span class="meta">Wajib: <span class="req">*</span></span></div>
+    <div class="form-wrap reveal">
+      <form class="form-card" id="ppdb-form" onsubmit="return false">
+        <div class="fsec">
+          <div class="sh"><span class="n">01</span><h3>Data Pribadi</h3></div>
+          <div class="frow">
+            <div class="field"><label>Nama Lengkap <span class="req">*</span></label><input class="input" placeholder="Sesuai akta" required /></div>
+            <div class="field"><label>NISN <span class="req">*</span></label><input class="input" placeholder="10 digit" required /></div>
+            <div class="field"><label>Jenis Kelamin <span class="req">*</span></label><select class="select"><option>Laki-laki</option><option>Perempuan</option></select></div>
+            <div class="field"><label>Tanggal Lahir <span class="req">*</span></label><input class="input" type="date" required /></div>
+            <div class="field"><label>Tempat Lahir</label><input class="input" placeholder="Kota kelahiran" /></div>
+            <div class="field"><label>Asal Sekolah <span class="req">*</span></label><input class="input" placeholder="SMP/MTs asal" required /></div>
+          </div>
+          <div class="frow full" style="margin-top:16px"><div class="field"><label>Alamat Lengkap</label><textarea class="textarea" placeholder="Jalan, RT/RW, kelurahan, kecamatan, kota"></textarea></div></div>
+        </div>
+        <div class="fsec">
+          <div class="sh"><span class="n">02</span><h3>Jurusan &amp; Jalur</h3></div>
+          <div class="frow">
+            <div class="field"><label>Jalur <span class="req">*</span></label><select class="select"><option>Reguler</option><option>Prestasi</option><option>Afirmasi</option></select></div>
+            <div class="field"><label>Gelombang <span class="req">*</span></label><select class="select"><option>Gelombang 1</option><option>Gelombang 2</option><option>Gelombang 3</option></select></div>
+            <div class="field"><label>Pilihan Jurusan 1 <span class="req">*</span></label><select class="select"><option>Teknik Komputer &amp; Jaringan</option><option>Rekayasa Perangkat Lunak</option><option>Multimedia / DKV</option><option>Teknik Elektronika</option><option>Akuntansi</option></select></div>
+            <div class="field"><label>Pilihan Jurusan 2</label><select class="select"><option>Rekayasa Perangkat Lunak</option><option>Teknik Komputer &amp; Jaringan</option><option>Multimedia / DKV</option><option>Teknik Elektronika</option><option>Akuntansi</option></select></div>
+          </div>
+        </div>
+        <div class="fsec">
+          <div class="sh"><span class="n">03</span><h3>Data Orang Tua / Wali</h3></div>
+          <div class="frow">
+            <div class="field"><label>Nama Ayah</label><input class="input" placeholder="Nama ayah" /></div>
+            <div class="field"><label>Nama Ibu</label><input class="input" placeholder="Nama ibu" /></div>
+            <div class="field"><label>Pekerjaan Orang Tua</label><input class="input" placeholder="Mis. Wiraswasta" /></div>
+            <div class="field"><label>No. WhatsApp Aktif <span class="req">*</span></label><input class="input" placeholder="08xx-xxxx-xxxx" required /></div>
+          </div>
+        </div>
+        <div class="fsec">
+          <div class="sh"><span class="n">04</span><h3>Unggah Berkas</h3></div>
+          <div class="frow">
+            <label class="upload"><svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0 4 4m-4-4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><b>Kartu Keluarga</b><span>PDF / JPG</span></label>
+            <label class="upload"><svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0 4 4m-4-4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><b>Rapor &amp; Ijazah</b><span>PDF / JPG</span></label>
+          </div>
+        </div>
+        <label class="agree"><input type="checkbox" style="margin-top:3px" required /> Saya menyatakan data yang diisi benar dan menyetujui ketentuan PPDB SMK Bina Teknologi.</label>
+        <button class="btn btn-amber btn-lg" id="submit-btn" style="width:100%; margin-top:22px">Kirim Pendaftaran
+          <svg viewBox="0 0 24 24" fill="none"><path d="m22 2-7 20-4-9-9-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+      </form>
+      <aside class="aside">
+        <h4>Panduan</h4>
+        <div class="smini"><span class="d">01</span><div><b>Siapkan berkas</b><span>Scan dokumen dulu</span></div></div>
+        <div class="smini"><span class="d">02</span><div><b>Isi formulir</b><span>Sesuai dokumen</span></div></div>
+        <div class="smini"><span class="d">03</span><div><b>Simpan no. daftar</b><span>Untuk cek status</span></div></div>
+        <a href="#" class="btn btn-onp btn-sm" style="width:100%; margin-top:18px; background:rgba(241,237,230,.12)">WhatsApp Panitia</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- CEK STATUS -->
+<section class="section" id="status" style="padding-top:0">
+  <div class="wrap">
+    <div class="status-box">
+      <div class="secnum center"><span class="no">// 07</span><h2>Cek Status Pendaftaran</h2></div>
+      <div class="status-in reveal">
+        <input class="input" id="status-no" placeholder="Contoh: PPDB-2026-0428" />
+        <button class="btn btn-primary" id="cek-btn">Cek Status</button>
+      </div>
+      <div class="status-res" id="status-res">
+        <div class="status-card">
+          <div class="status-head">
+            <span class="av">MR</span>
+            <div style="flex:1"><b style="font-family:'Sora'; font-size:1.1rem; display:block">Muhammad Rizky Pratama</b><span class="mono" style="font-size:.78rem; color:var(--muted)">PPDB-2026-0428 · Jalur Reguler</span></div>
+            <span class="badge badge-ok"><span class="dot"></span>Diterima</span>
+          </div>
+          <div class="sgrid">
+            <div class="it"><span>Jurusan</span><b>Rekayasa Perangkat Lunak</b></div>
+            <div class="it"><span>Gelombang</span><b>Gelombang 1</b></div>
+            <div class="it"><span>Tanggal Daftar</span><b>12 Mei 2026</b></div>
+            <div class="it"><span>Asal Sekolah</span><b>SMPN 3 Bandung</b></div>
+          </div>
+          <div style="margin-top:18px">
+            <div style="display:flex; justify-content:space-between; font-family:'Space Mono'; font-size:.72rem; color:var(--ink-2)"><span>PROGRES</span><span>TAHAP 4 / 5</span></div>
+            <div class="ptrack"><div class="pfill"></div></div>
+            <p class="mono" style="font-size:.82rem; color:var(--muted); margin-top:10px">Selamat! Anda dinyatakan <b style="color:var(--maroon)">DITERIMA</b>. Daftar ulang 1–10 Juni 2026.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="secnum center"><span class="no">// 08</span><h2>Pertanyaan Umum</h2></div>
+    <div class="faq reveal">
+      <div class="faq-item"><button class="faq-q">Apakah pendaftaran bisa sepenuhnya online?<span class="pm">+</span></button><div class="faq-a"><p>Ya, seluruh proses mulai pengisian formulir hingga unggah berkas dilakukan online. Verifikasi dokumen fisik saat daftar ulang.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Bagaimana jika saya lupa nomor pendaftaran?<span class="pm">+</span></button><div class="faq-a"><p>Nomor dikirim ke WhatsApp yang Anda daftarkan. Jika hilang, hubungi panitia dengan menyebutkan NISN dan nama lengkap.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Apakah bisa memilih dua jurusan?<span class="pm">+</span></button><div class="faq-a"><p>Bisa. Anda dapat memilih pilihan jurusan 1 (utama) dan pilihan 2 (cadangan) sesuai ketersediaan kuota.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Kapan pengumuman hasil seleksi?<span class="pm">+</span></button><div class="faq-a"><p>Pengumuman gelombang 1 pada 28 Mei 2026, dicek melalui menu Cek Status di halaman ini.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="grid-f">
+      <div>
+        <a class="brand" href="#top"><span class="mk"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 2 8l10 5 8-4v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 11.5V16c0 1.1 2.7 2.5 6 2.5s6-1.4 6-2.5v-4.5" stroke="currentColor" stroke-width="2"/></svg></span><span class="wm">Bina Teknologi</span></a>
+        <p style="margin-top:18px; max-width:300px">Sekolah kejuruan berbasis teknologi, mencetak lulusan siap kerja &amp; berwirausaha.</p>
+      </div>
+      <div><h4>PPDB</h4><a href="#jalur">Jalur</a><a href="#alur">Alur</a><a href="#jadwal">Jadwal</a><a href="#biaya">Biaya</a><a href="#daftar">Daftar</a></div>
+      <div><h4>Kontak Panitia</h4><p>Jl. Industri No. 8, Bandung 40234</p><p style="margin-top:8px">0812-0000-1111 (WA)<br/>ppdb@binateknologi.sch.id</p></div>
+    </div>
+    <div class="copy"><span>© 2026 SMK BINA TEKNOLOGI · SISTEM PPDB ONLINE</span><span>DIBUAT DENGAN SEKOLAHKU PPDB</span></div>
+  </div>
+</footer>
+
+<!-- SUCCESS -->
+<div class="success" id="success">
+  <div class="success-bg" data-close-success></div>
+  <div class="success-card">
+    <div class="success-ic"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2 style="font-size:1.6rem">Pendaftaran Berhasil</h2>
+    <p class="muted" style="margin-top:8px">Data Anda telah kami terima. Simpan nomor pendaftaran berikut untuk memantau status seleksi.</p>
+    <div class="regno"><span>Nomor Pendaftaran</span><b id="reg-num">PPDB-2026-0429</b></div>
+    <p style="font-size:.88rem; color:var(--ink-2)">Nomor juga dikirim ke WhatsApp Anda. Langkah selanjutnya: tunggu verifikasi panitia.</p>
+    <div style="display:flex; gap:10px; margin-top:22px">
+      <a href="#status" class="btn btn-soft" style="flex:1" data-close-success>Cek Status</a>
+      <button class="btn btn-primary" style="flex:1" data-close-success>Selesai</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/ui.js"></script>
+<script>
+  document.querySelectorAll('.faq-q').forEach(function(q){
+    q.addEventListener('click', function(){
+      var it=q.closest('.faq-item'); var open=it.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function(i){ i.classList.remove('open'); });
+      if(!open) it.classList.add('open');
+    });
+  });
+  var sc=document.getElementById('success');
+  document.getElementById('submit-btn').addEventListener('click', function(){
+    var f=document.getElementById('ppdb-form');
+    if(!f.checkValidity()){ f.reportValidity(); return; }
+    document.getElementById('reg-num').textContent='PPDB-2026-'+String(430+Math.floor(Math.random()*60)).padStart(4,'0');
+    sc.classList.add('open'); document.body.style.overflow='hidden';
+  });
+  function closeSuccess(){ sc.classList.remove('open'); document.body.style.overflow=''; }
+  document.querySelectorAll('[data-close-success]').forEach(function(b){ b.addEventListener('click', closeSuccess); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSuccess(); });
+  document.getElementById('cek-btn').addEventListener('click', function(){
+    var no=document.getElementById('status-no'); if(!no.value.trim()){ no.value='PPDB-2026-0428'; }
+    var r=document.getElementById('status-res'); r.classList.add('show');
+    window.scrollTo({ top:r.getBoundingClientRect().top+window.scrollY-90, behavior:'smooth' });
+  });
+</script>
+</body>
+</html>
