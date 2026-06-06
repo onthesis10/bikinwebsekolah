@@ -17,7 +17,7 @@ export const packages: PackageSpec[] = [
   {
     id: "start",
     name: "Start",
-    price: "Rp799rb",
+    price: "Rp500rb",
     normalPrice: "Rp999rb",
     description: "Website profil sekolah statis yang elegan, ringan, dan terpercaya — kehadiran resmi online tanpa ribet.",
     features: [

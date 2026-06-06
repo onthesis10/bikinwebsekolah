@@ -425,7 +425,7 @@ export const LandingPage: React.FC = () => {
                 initial="hidden"
                 animate="visible"
               >
-                <motion.div className="gcard accent lift" variants={cardVariants} whileHover={{ y: -4, scale: 1.02 }}><span className="lbl">Mulai dari</span><b>Rp 999rb</b></motion.div>
+                <motion.div className="gcard accent lift" variants={cardVariants} whileHover={{ y: -4, scale: 1.02 }}><span className="lbl">Mulai dari</span><b>Rp 500rb</b></motion.div>
                 <motion.div className="gcard solid" variants={cardVariants} whileHover={{ y: -4, scale: 1.02 }}><span className="lbl">Tingkat 2 · Premium</span><b>CMS Google Sheet</b></motion.div>
                 <motion.div className="gcard lift" variants={cardVariants} whileHover={{ y: -4, scale: 1.02 }}><span className="lbl">Tingkat 3 · Komersial</span><b>PPDB + Dashboard</b></motion.div>
                 <motion.div className="gcard" variants={cardVariants} whileHover={{ y: -4, scale: 1.02 }}><span className="lbl">Kualitas</span><b>100% Responsive</b></motion.div>
